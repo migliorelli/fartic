@@ -1,0 +1,39 @@
+.loading {
+  height: 300px;
+  display: grid;
+  place-items: center;
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.error div {
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.doubleControllers {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.doubleControllers > div {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+ .doubleControllers {
+  flex-wrap: wrap;
+ }
+}

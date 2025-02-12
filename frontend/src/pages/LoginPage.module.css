@@ -1,0 +1,9 @@
+.loginContainer {
+  background-color: var(--container);
+  padding: 2rem;
+  width: 20rem;
+}
+
+.title {
+  margin-bottom: 2rem;
+}

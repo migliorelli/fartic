@@ -1,0 +1,22 @@
+.messageContainer {
+  margin: 0px;
+  padding: 0px;
+  font-size: large;
+  user-select: none;
+}
+
+.SERVER {
+  color: cornflowerblue;
+}
+
+.CONFIRM {
+  color: mediumspringgreen;
+}
+
+.WARNING {
+  color: lightsalmon;
+}
+
+.MESSAGE {
+  color: gray;
+}

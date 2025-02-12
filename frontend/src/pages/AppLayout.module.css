@@ -1,0 +1,35 @@
+.appLayout {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  width: 100%;
+}
+
+.appContainer {
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.link {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+
+  color: var(--background);
+  text-decoration: none;
+  padding: 0.5rem;
+
+  transition: transform 200ms;
+}
+
+.link:hover {
+  transform: translate(-50%, -5px);
+}
+
+@media (max-width: 768px) {
+  .link {
+    display: none;
+  }
+}

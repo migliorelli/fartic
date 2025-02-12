@@ -1,0 +1,26 @@
+{
+  "name": "fartic-backend",
+  "version": "1.0.0",
+  "main": "src/app.ts",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.9.1",
+    "@types/socket.io": "^3.0.2",
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "nodemon": "^3.1.7",
+    "pg": "^8.13.1",
+    "prettier": "^3.3.3",
+    "prettier-plugin-organize-imports": "^4.1.0",
+    "prisma": "^5.22.0",
+    "socket.io": "^4.8.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  },
+  "scripts": {
+    "dev": "nodemon src/app.ts"
+  }
+}

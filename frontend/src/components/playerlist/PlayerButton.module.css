@@ -1,0 +1,79 @@
+.playerBtn {
+  background-color: transparent;
+  border: 0px;
+  outline: none;
+  font-family: "Inter", sans-serif;
+
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 1rem;
+  padding-inline: 2rem;
+
+  border-bottom: 1px lightgray solid;
+}
+
+.playerBtn:last-child {
+  border-bottom: none;
+}
+
+.playerBtn > div {
+  transition: all 200ms;
+}
+
+.playerBtn:hover > div {
+  transform: scale(1.05);
+}
+
+.infos {
+  display: flex;
+  align-items: center;
+  height: 1005;
+  gap: 1rem;
+}
+
+.photo {
+  color: gray;
+}
+
+.username {
+  font-size: x-large;
+  text-align: start;
+  color: gray;
+}
+
+.points {
+  font-size: larger;
+  /* color: var(--secondary); */
+  text-align: start;
+  font-weight: bolder;
+  color: gray;
+}
+
+.playerBtn.me .username {
+  color: var(--primary);
+}
+
+.playerBtn.me .photo {
+  color: var(--primary);
+}
+
+.playerBtn.drawing .username {
+  color: #ea57c0;
+}
+
+.playerBtn.drawing .photo {
+  color: #ea57c0;
+}
+.tokens {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.drawing {
+  color: #ea57c0;
+}
