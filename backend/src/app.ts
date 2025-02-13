@@ -10,6 +10,7 @@ import mongoose from "mongoose";
 import { Server as SocketServer } from "socket.io";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
+import errorMiddleware from "./middlewares/error.middleware";
 
 class App {
   public server = createServer();
@@ -68,6 +69,7 @@ class App {
     this.app.use(helmet());
     this.app.use(cookieParser());
     this.app.use(express.json());
+    this.app.use(errorMiddleware());
   }
 
   private initRoutes(routes: Routes[]) {
