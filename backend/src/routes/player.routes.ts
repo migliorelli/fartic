@@ -3,7 +3,7 @@ import Routes from "@/interfaces/routes.interface";
 import { Router } from "express";
 
 class PlayerRoutes implements Routes {
-  public path = "/player";
+  public path = "/players";
   public router = Router();
   public playersController = new PlayersController();
 
