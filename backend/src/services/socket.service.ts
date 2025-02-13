@@ -28,7 +28,7 @@ class SocketService {
         client.nsp.to(room._id).emit("player:left", socketId);
       } catch (error) {
         console.error(
-          `Error on SocketService.setupConnection.disconnect: ${error}`,
+          `SOCKET /rooms disconnect => Message: ${(error as Error).message}`,
         );
       }
     });
@@ -48,7 +48,9 @@ class SocketService {
         client.join(roomId);
         client.nsp.to(roomId).emit("player:joined", socketId, username);
       } catch (error) {
-        console.error(`Error on SocketService.setupRooms.room-join: ${error}`);
+        console.error(
+          `SOCKET /rooms room:join => Message: ${(error as Error).message}`,
+        );
       }
     });
   }
