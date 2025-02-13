@@ -31,6 +31,7 @@ class App {
     this.connectDatabase();
     this.initMiddlewares();
     this.initRoutes(routes);
+    this.initErrorHandling();
     this.initSwagger();
   }
 
@@ -69,7 +70,6 @@ class App {
     this.app.use(helmet());
     this.app.use(cookieParser());
     this.app.use(express.json());
-    this.app.use(errorMiddleware());
   }
 
   private initRoutes(routes: Routes[]) {
@@ -92,6 +92,10 @@ class App {
 
     const specs = swaggerJSDoc(options);
     this.app.use(`/${VERSION}/docs`, swaggerUi.serve, swaggerUi.setup(specs));
+  }
+
+  private initErrorHandling() {
+    this.app.use(errorMiddleware());
   }
 
   private async disconnectDatabase() {
