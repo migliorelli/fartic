@@ -1,10 +1,12 @@
 import MessageType from "@/enums/message.enum";
 import { AppSocket, SocketClient } from "@/interfaces/socket.interface";
+import PlayerService from "./player.service";
 import RoomService from "./room.service";
 
 class SocketService {
   public socket: AppSocket;
   roomService = new RoomService();
+  playerService = new PlayerService();
 
   constructor(socket: AppSocket) {
     this.socket = socket;
@@ -23,7 +25,7 @@ class SocketService {
         const socketId = client.id.toString();
 
         const { room } =
-          await this.roomService.removePlayerFromRoomBySocketId(socketId);
+          await this.playerService.removePlayerFromRoomBySocketId(socketId);
 
         client.nsp.to(room._id).emit("player:left", socketId);
       } catch (error) {
@@ -39,7 +41,7 @@ class SocketService {
       try {
         const socketId = client.id.toString();
 
-        await this.roomService.addPlayerToRoomByRoomId(
+        await this.playerService.addPlayerToRoomByRoomId(
           roomId,
           socketId,
           username,
@@ -59,7 +61,7 @@ class SocketService {
     client.on("awser:send", (roomId, username, content) => {
       client.nsp
         .to(roomId)
-        .emit("awser:receive", roomId, username, content, MessageType.MESSAGE);
+        .emit("awser:receive", roomId, username, content, MessageType.Message);
     });
   }
 
@@ -67,7 +69,7 @@ class SocketService {
     client.on("chat:send", (roomId, username, content) => {
       client.nsp
         .to(roomId)
-        .emit("chat:receive", roomId, username, content, MessageType.MESSAGE);
+        .emit("chat:receive", roomId, username, content, MessageType.Message);
     });
   }
 }

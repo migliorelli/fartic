@@ -1,8 +1,8 @@
 enum MessageType {
-  SERVER = "SERVER",
-  CONFIRM = "CONFIRM",
-  WARNING = "WARNING",
-  MESSAGE = "MESSAGE",
+  Server = "SERVER",
+  Confirm = "CONFIRM",
+  Warning = "WARNING",
+  Message = "MESSAGE",
 }
 
 export default MessageType;
