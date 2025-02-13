@@ -1,26 +1,32 @@
 {
   "name": "fartic-backend",
   "version": "1.0.0",
-  "main": "src/app.ts",
+  "main": "src/index.ts",
   "license": "MIT",
   "dependencies": {
-    "@prisma/client": "^5.22.0",
+    "@types/cookie-parser": "^1.4.8",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0",
+    "mongoose": "^8.10.0",
+    "socket.io": "^4.8.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
-    "@types/node": "^22.9.1",
+    "@types/helmet": "^4.0.0",
+    "@types/node": "^22.13.1",
     "@types/socket.io": "^3.0.2",
-    "cors": "^2.8.5",
-    "express": "^4.21.1",
-    "nodemon": "^3.1.7",
-    "pg": "^8.13.1",
-    "prettier": "^3.3.3",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.7",
+    "nodemon": "^3.1.9",
+    "prettier": "^3.5.0",
     "prettier-plugin-organize-imports": "^4.1.0",
-    "prisma": "^5.22.0",
-    "socket.io": "^4.8.1",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.6.3"
-  },
-  "scripts": {
-    "dev": "nodemon src/app.ts"
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.7.3"
   }
 }
