@@ -1,6 +1,6 @@
-import { configDotenv } from "dotenv";
+import { config } from "dotenv";
 
-configDotenv();
+config();
 
 export const {
   NODE_ENV,
