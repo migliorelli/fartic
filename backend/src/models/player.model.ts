@@ -2,7 +2,7 @@ import Player from "@/interfaces/player.interface";
 import mongoose from "mongoose";
 
 interface PlayerModel extends mongoose.Model<Player> {
-  generateTag: () => string;
+  generateTag: () => Promise<string>;
 }
 
 const PlayerSchema = new mongoose.Schema(

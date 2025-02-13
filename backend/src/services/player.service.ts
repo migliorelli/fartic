@@ -31,7 +31,7 @@ class PlayerService {
   ): Promise<Player> {
     const player: Omit<Player, "_id"> = {
       ...data,
-      tag: this.model.generateTag(),
+      tag: await this.model.generateTag(),
     };
 
     const createdPlayer = await this.model.create(player);
@@ -58,7 +58,7 @@ class PlayerService {
       socketId,
       username,
       score: 0,
-      tag: this.model.generateTag(),
+      tag: await this.model.generateTag(),
     };
 
     const createdPlayer = await this.model.create(player);
