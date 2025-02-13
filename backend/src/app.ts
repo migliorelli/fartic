@@ -35,12 +35,10 @@ class App {
 
   public listen() {
     this.server.listen(this.port, () => {
-      console.log(`
-        =========================================
-        💻 ENV = ${this.env} 
-        🚀 App listening on the port ${this.port}
-        =========================================
-        `);
+      console.log("=========================================");
+      console.log(`💻 ENV = ${this.env} `);
+      console.log(`🚀 App listening on the port ${this.port}`);
+      console.log("=========================================");
     });
   }
 
