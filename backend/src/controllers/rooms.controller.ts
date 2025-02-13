@@ -7,7 +7,6 @@ class RoomsController {
   public service = new RoomService();
 
   public getRooms = async (req: Request, res: Response, next: NextFunction) => {
-    console.log(this.service);
     try {
       const roomsData = await this.service.findAllRooms();
       res.status(200).json({ data: roomsData, message: "findAll" });
