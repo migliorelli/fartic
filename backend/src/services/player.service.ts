@@ -40,6 +40,14 @@ class PlayerService {
     return createdPlayer;
   }
 
+  public async deletePlayerById(playerId: string): Promise<Player> {
+    const deletedRoom: Player | null =
+      await this.model.findByIdAndDelete(playerId);
+    if (!deletedRoom) throw new HttpError(409, "Player doesn't exist");
+
+    return deletedRoom;
+  }
+
   public async addPlayerToRoomByRoomId(
     roomId: string,
     socketId: string,

@@ -49,6 +49,21 @@ class PlayersController {
       next(error);
     }
   };
+
+  public deletePlayer = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const playerId = req.params.id;
+      const player = await this.service.deletePlayerById(playerId);
+
+      res.status(200).json({ data: player, message: "delete" });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 export default PlayersController;

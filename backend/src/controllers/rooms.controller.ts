@@ -45,6 +45,21 @@ class RoomsController {
       next(error);
     }
   };
+
+  public deleteRoom = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const roomId = req.params.id;
+      const room = await this.service.deleteRoomById(roomId);
+
+      res.status(200).json({ data: room, message: "delete" });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 export default RoomsController;

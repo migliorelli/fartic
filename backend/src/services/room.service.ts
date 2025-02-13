@@ -37,7 +37,7 @@ class RoomService {
     return room;
   }
 
-  public async deleteRoom(roomId: string): Promise<Room> {
+  public async deleteRoomById(roomId: string): Promise<Room> {
     const deletedRoom: Room | null = await this.model.findByIdAndDelete(roomId);
     if (!deletedRoom) throw new HttpError(409, "Room doesn't exist");
 
