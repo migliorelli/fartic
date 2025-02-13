@@ -11,7 +11,7 @@ const errorMiddleware = (
     const status = error.status || 500;
     const message = error.message || "Something went wrong.";
 
-    console.log(
+    console.error(
       `${req.method} - ${req.path} => Status: ${status}, Message: ${message}`,
     );
 
