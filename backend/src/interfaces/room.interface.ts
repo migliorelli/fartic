@@ -1,7 +1,7 @@
 import Status from "@/enums/status.enum";
 import Player from "./player.interface";
 
-export default interface Room {
+interface Room {
   _id: string;
   name: string;
   players: Player[];
@@ -10,3 +10,5 @@ export default interface Room {
   status: Status;
   createdAt: Date;
 }
+
+export default Room;

@@ -1,8 +1,8 @@
 import RoomsController from "@/controllers/rooms.controller";
-import { Routes } from "@/interfaces/routes.interface";
+import Routes from "@/interfaces/routes.interface";
 import { Router } from "express";
 
-export default class RoomRoutes implements Routes {
+class RoomRoutes implements Routes {
   public path = "/rooms";
   public router = Router();
   public roomsController = new RoomsController();
@@ -17,3 +17,5 @@ export default class RoomRoutes implements Routes {
     this.router.post(`${this.path}`, this.roomsController.createRoom);
   }
 }
+
+export default RoomRoutes;

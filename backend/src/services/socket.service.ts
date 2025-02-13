@@ -2,7 +2,7 @@ import MessageType from "@/enums/message.enum";
 import { AppSocket, SocketClient } from "@/interfaces/socket.interface";
 import RoomService from "./room.service";
 
-export default class SocketService {
+class SocketService {
   public socket: AppSocket;
   roomService = new RoomService();
 
@@ -69,3 +69,5 @@ export default class SocketService {
     });
   }
 }
+
+export default SocketService;

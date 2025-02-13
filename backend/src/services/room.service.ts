@@ -1,10 +1,10 @@
-import { HttpError } from "@/errors/http.error";
+import HttpError from "@/errors/http.error";
 import Player from "@/interfaces/player.interface";
 import Room from "@/interfaces/room.interface";
 import RoomModel from "@/models/room.model";
 import { isEmpty } from "@/utils/util";
 
-export default class RoomService {
+class RoomService {
   public model = RoomModel;
 
   public async findAllRooms(): Promise<Room[]> {
@@ -91,3 +91,5 @@ export default class RoomService {
     };
   }
 }
+
+export default RoomService;

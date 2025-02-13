@@ -1,4 +1,4 @@
-export class SocketError extends Error {
+class SocketError extends Error {
   public status: number;
   public message: string;
 
@@ -8,3 +8,5 @@ export class SocketError extends Error {
     this.message = message;
   }
 }
+
+export default SocketError;

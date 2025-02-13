@@ -1,6 +1,6 @@
 import { NODE_ENV, ORIGIN, PORT, VERSION } from "@config";
 import { DBMongoose } from "@databases";
-import { Routes } from "@interfaces/routes.interface";
+import Routes from "@interfaces/routes.interface";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express from "express";
@@ -11,7 +11,7 @@ import { Server as SocketServer } from "socket.io";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 
-export default class App {
+class App {
   public server = createServer();
   public app = express();
   public socket = new SocketServer();
@@ -98,3 +98,5 @@ export default class App {
     await mongoose.disconnect();
   }
 }
+
+export default App;

@@ -1,9 +1,9 @@
-import { HttpError } from "@/errors/http.error";
+import HttpError from "@/errors/http.error";
 import RoomService from "@/services/room.service";
 import { validateCreateRoom } from "@/validators/room.validator";
 import { NextFunction, Request, Response } from "express";
 
-export default class RoomsController {
+class RoomsController {
   public service = new RoomService();
 
   public async getRooms(req: Request, res: Response, next: NextFunction) {
@@ -31,9 +31,12 @@ export default class RoomsController {
       if (!validateCreateRoom(req.body))
         throw new HttpError(409, "Invalid room data");
 
-      const createdRoom = this.service.createRoom(req.body);
+      const room = this.service.createRoom(req.body);
+      res.status(200).json({ data: room, message: "create" });
     } catch (error) {
       next(error);
     }
   }
 }
+
+export default RoomsController;
