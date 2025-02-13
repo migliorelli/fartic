@@ -3,6 +3,7 @@ import Player from "@/interfaces/player.interface";
 import Room from "@/interfaces/room.interface";
 import RoomModel from "@/models/room.model";
 import { isEmpty } from "@/utils/util";
+import { validateObjectId } from "@/validators/objectid.validator";
 
 class RoomService {
   public model = RoomModel;
@@ -14,6 +15,8 @@ class RoomService {
 
   public async findRoomById(roomId: string): Promise<Room> {
     if (isEmpty(roomId)) throw new HttpError(400, "RoomId is empty");
+    if (!validateObjectId(roomId))
+      throw new HttpError(400, "RoomId is invalid");
 
     const room: Room | null = await this.model.findOne({ _id: roomId });
     if (!room) throw new HttpError(409, "Room doesn't exist");
@@ -44,6 +47,8 @@ class RoomService {
     if (isEmpty(roomId)) throw new HttpError(400, "RoomId is empty");
     if (isEmpty(socketId)) throw new HttpError(400, "SocketId is empty");
     if (isEmpty(username)) throw new HttpError(400, "Username is empty");
+    if (!validateObjectId(roomId))
+      throw new HttpError(400, "RoomId is invalid");
 
     const room = await this.model.findOne({ _id: roomId });
     if (!room) throw new HttpError(409, "Room doesn't exist");
@@ -68,6 +73,8 @@ class RoomService {
     socketId: string,
   ): Promise<{ player: Player; room: Room }> {
     if (isEmpty(socketId)) throw new HttpError(400, "SocketId is empty");
+    if (!validateObjectId(socketId))
+      throw new HttpError(400, "SocketId is invalid");
 
     const room = await this.model.findOne({ "players.socketId": socketId });
     if (!room) throw new HttpError(409, "Room doesn't exist");
