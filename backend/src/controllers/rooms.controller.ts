@@ -6,16 +6,21 @@ import { NextFunction, Request, Response } from "express";
 class RoomsController {
   public service = new RoomService();
 
-  public async getRooms(req: Request, res: Response, next: NextFunction) {
+  public getRooms = async (req: Request, res: Response, next: NextFunction) => {
+    console.log(this.service);
     try {
       const roomsData = await this.service.findAllRooms();
       res.status(200).json({ data: roomsData, message: "findAll" });
     } catch (error) {
       next(error);
     }
-  }
+  };
 
-  public async getRoomById(req: Request, res: Response, next: NextFunction) {
+  public getRoomById = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
     try {
       const roomId = req.params.id;
       const room = await this.service.findRoomById(roomId);
@@ -24,9 +29,13 @@ class RoomsController {
     } catch (error) {
       next(error);
     }
-  }
+  };
 
-  public async createRoom(req: Request, res: Response, next: NextFunction) {
+  public createRoom = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
     try {
       if (!validateCreateRoom(req.body))
         throw new HttpError(409, "Invalid room data");
@@ -36,7 +45,7 @@ class RoomsController {
     } catch (error) {
       next(error);
     }
-  }
+  };
 }
 
 export default RoomsController;
