@@ -21,9 +21,7 @@ class RoomService {
     return room;
   }
 
-  public async createRoom(data: Room): Promise<Room> {
-    if (isEmpty(data)) throw new HttpError(400, "RoomData is empty");
-
+  public async createRoom(data: Partial<Room>): Promise<Room> {
     const roomsQuantity = await this.model.countDocuments();
     const name = `Room ${roomsQuantity + 1}`;
 
