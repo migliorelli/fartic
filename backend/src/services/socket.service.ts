@@ -11,7 +11,7 @@ class SocketService {
   constructor(socket: AppSocket) {
     this.socket = socket;
 
-    this.socket.of("/room").on("connection", async (client) => {
+    this.socket.of("/game").on("connection", async (client) => {
       this.setupConnection(client);
       this.setupRooms(client);
       this.setupAwser(client);
