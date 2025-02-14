@@ -17,7 +17,7 @@ class PlayersController {
     }
   };
 
-  public getPlayer = async (
+  public getPlayerById = async (
     req: Request,
     res: Response,
     next: NextFunction,

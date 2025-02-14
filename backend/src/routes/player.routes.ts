@@ -13,7 +13,7 @@ class PlayerRoutes implements Routes {
 
   private initRoutes() {
     this.router.get(`${this.path}`, this.playersController.getPlayers);
-    this.router.get(`${this.path}/:id`, this.playersController.getPlayer);
+    this.router.get(`${this.path}/:id`, this.playersController.getPlayerById);
     this.router.post(`${this.path}`, this.playersController.createPlayer);
     this.router.delete(`${this.path}/:id`, this.playersController.deletePlayer);
   }
