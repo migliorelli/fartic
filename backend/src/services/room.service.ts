@@ -11,7 +11,7 @@ class RoomService {
   public async findAllRooms(): Promise<PopulatedRoom[]> {
     const rooms: PopulatedRoom[] = await this.model
       .find()
-      .populate<PopulatedRoom>("players");
+      .populate<PopulatedRoom>("players theme");
 
     return rooms;
   }
@@ -23,7 +23,7 @@ class RoomService {
 
     const room: PopulatedRoom | null = await this.model
       .findOne({ _id: roomId })
-      .populate<PopulatedRoom>("players");
+      .populate<PopulatedRoom>("players theme");
 
     if (!room) throw new HttpError(409, "Room doesn't exist");
 
@@ -39,7 +39,7 @@ class RoomService {
 
     const room = await this.model.create({ ...data, name });
     const populatedRoom = await this.model.populate<PopulatedRoom>(room, {
-      path: "players",
+      path: "players theme",
     });
 
     return populatedRoom;
@@ -48,7 +48,7 @@ class RoomService {
   public async deleteRoomById(roomId: string): Promise<PopulatedRoom> {
     const deletedRoom: PopulatedRoom | null = await this.model
       .findByIdAndDelete(roomId)
-      .populate<PopulatedRoom>("players");
+      .populate<PopulatedRoom>("players theme");
 
     if (!deletedRoom) throw new HttpError(409, "Room doesn't exist");
 
