@@ -21,3 +21,5 @@ export const isEmpty = (value: string | number | object): boolean => {
     return false;
   }
 };
+
+export const isArray = (array: any): boolean => Array.isArray(array);
