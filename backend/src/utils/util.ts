@@ -22,4 +22,10 @@ export const isEmpty = (value: string | number | object): boolean => {
   }
 };
 
-export const isArray = (array: any): boolean => Array.isArray(array);
+/**
+ * @method isArray
+ * @param {any} value
+ * @returns {Boolean} true & false
+ * @description this value is Array Check
+ */
+export const isArray = (value: any): boolean => Array.isArray(value);
