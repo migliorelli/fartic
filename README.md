@@ -8,14 +8,7 @@ Fartic is a drawing game, just like Gartic.
 
 ## Features
 
-### Backend
-
-- MongoDB
-- SocketIO
-- Express
-- MVCS design pattern
-
-### Frontend
+Frontend:
 
 - Vue
 - Vue Router
@@ -23,6 +16,34 @@ Fartic is a drawing game, just like Gartic.
 - SocketIO
 - Lucide Icons
 - Axios
+
+Backend:
+
+- MongoDB
+- SocketIO
+- Express
+- MVCS design pattern
+
+## Environment variables
+
+Frontend:
+
+```env
+VITE_SOCKET_URL=
+```
+
+Backend:
+
+```env
+PORT=
+VERSION=
+
+DB_HOST=
+DB_PORT=
+DB_DATABASE=
+
+ORIGIN=
+```
 
 ## Installation
 
@@ -33,27 +54,14 @@ Fartic is a drawing game, just like Gartic.
    cd fartic
    ```
 
-2. Install dependencies on both directories:
+2. Install dependencies:
 
    ```bash
-   yarn install:frontend
-   yarn install:backend
+   yarn install #first install concurrently
+   yarn install:all #then install all the packages in both directories
    ```
 
-   or with
-
-   ```bash
-   yarn install:all
-   ```
-
-3. Run the development server on both directories:
-
-   ```bash
-   yarn dev:frontend
-   yarn dev:backend
-   ```
-
-   or with
+3. Run the development server:
 
    ```bash
    yarn dev
