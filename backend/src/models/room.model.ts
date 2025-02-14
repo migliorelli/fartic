@@ -13,6 +13,10 @@ const RoomSchema = new mongoose.Schema({
       ref: "Player",
     },
   ],
+  theme: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Theme",
+  },
   currentWord: {
     type: String,
     required: false,
