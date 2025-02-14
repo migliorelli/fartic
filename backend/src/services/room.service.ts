@@ -3,6 +3,7 @@ import Room, { PopulatedRoom } from "@/interfaces/room.interface";
 import RoomModel from "@/models/room.model";
 import { isEmpty } from "@/utils/util";
 import { validateObjectId } from "@/validators/objectid.validator";
+import { validateCreateRoom } from "@/validators/room.validator";
 
 class RoomService {
   public model = RoomModel;
@@ -30,6 +31,9 @@ class RoomService {
   }
 
   public async createRoom(data: Partial<Room>): Promise<Room> {
+    if (!validateCreateRoom(data))
+      throw new HttpError(409, "Invalid room data");
+
     const roomsQuantity = await this.model.countDocuments();
     const name = `Room ${roomsQuantity + 1}`;
 

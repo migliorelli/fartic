@@ -5,6 +5,7 @@ import PlayerModel from "@/models/player.model";
 import RoomModel from "@/models/room.model";
 import { isEmpty } from "@/utils/util";
 import { validateObjectId } from "@/validators/objectid.validator";
+import { validateCreatePlayer } from "@/validators/player.validator";
 
 class PlayerService {
   public model = PlayerModel;
@@ -29,6 +30,9 @@ class PlayerService {
   public async createPlayer(
     data: Omit<Player, "tag" | "_id">,
   ): Promise<Player> {
+    if (!validateCreatePlayer(data))
+      throw new HttpError(409, "Invalid player data");
+
     const player: Omit<Player, "_id"> = {
       ...data,
       tag: await this.model.generateTag(),
