@@ -7,6 +7,7 @@ interface Room {
   name: string;
   players: ObjectId[];
   currentWord?: string;
+  playerLimit: number;
   currendDrawer?: string;
   status: Status;
   createdAt: Date;

@@ -17,6 +17,11 @@ const RoomSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  playerLimit: {
+    type: Number,
+    required: true,
+    default: 8,
+  },
   currentDrawer: {
     type: String,
     required: false,
