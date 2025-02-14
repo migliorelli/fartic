@@ -4,7 +4,7 @@ import { inject, onMounted, ref } from "vue";
 import RoomCard from "../components/cards/RoomCard.vue";
 import CreateRoomModal from "../components/modals/CreateRoomModal.vue";
 import Button from "../components/ui/Button.vue";
-import Status from "../enums/status";
+import RoomStatus from "../enums/status";
 import { AxiosKey } from "../lib/http";
 import useGameStore from "../store/game";
 import type { Room } from "../types/game";
@@ -18,7 +18,7 @@ const rooms = ref<Room[]>([
     players: ["Alice", "Bob"],
     currentWord: "apple",
     currendDrawer: "Alice",
-    status: Status.Waiting,
+    status: RoomStatus.Waiting,
     createdAt: new Date(),
   },
   {
@@ -27,70 +27,70 @@ const rooms = ref<Room[]>([
     players: ["Charlie", "David"],
     currentWord: "banana",
     currendDrawer: "Charlie",
-    status: Status.Waiting,
+    status: RoomStatus.Waiting,
     createdAt: new Date(),
   },
   {
     _id: "3",
     name: "Sala 3",
     players: ["Eve", "Frank"],
-    status: Status.Waiting,
+    status: RoomStatus.Waiting,
     createdAt: new Date(),
   },
   {
     _id: "4",
     name: "Sala 4",
     players: ["Eve", "Frank"],
-    status: Status.Waiting,
+    status: RoomStatus.Waiting,
     createdAt: new Date(),
   },
   {
     _id: "5",
     name: "Sala 5",
     players: ["Eve", "Frank"],
-    status: Status.Waiting,
+    status: RoomStatus.Waiting,
     createdAt: new Date(),
   },
   {
     _id: "6",
     name: "Sala 6",
     players: ["Eve", "Frank"],
-    status: Status.Waiting,
+    status: RoomStatus.Waiting,
     createdAt: new Date(),
   },
   {
     _id: "7",
     name: "Sala 7",
     players: ["Eve", "Frank"],
-    status: Status.Waiting,
+    status: RoomStatus.Waiting,
     createdAt: new Date(),
   },
   {
     _id: "8",
     name: "Sala 8",
     players: ["Eve", "Frank"],
-    status: Status.Waiting,
+    status: RoomStatus.Waiting,
     createdAt: new Date(),
   },
   {
     _id: "9",
     name: "Sala 9",
     players: ["Eve", "Frank"],
-    status: Status.Waiting,
+    status: RoomStatus.Waiting,
     createdAt: new Date(),
   },
   {
     _id: "10",
     name: "Sala 10",
     players: ["Eve", "Frank"],
-    status: Status.Waiting,
+    status: RoomStatus.Waiting,
     createdAt: new Date(),
   },
   {
     _id: "11",
     name: "Sala 11",
     players: ["Eve", "Frank"],
-    status: Status.Waiting,
+    status: RoomStatus.Waiting,
     createdAt: new Date(),
   },
 ]);

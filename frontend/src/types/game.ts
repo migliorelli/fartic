@@ -1,5 +1,5 @@
 import type MessageType from "../enums/message";
-import type Status from "../enums/status";
+import type RoomStatus from "../enums/status";
 
 export interface Room {
   _id: string;
@@ -8,7 +8,7 @@ export interface Room {
   currentWord?: string;
   currendDrawer?: string;
   playerLimit: number;
-  status: Status;
+  status: RoomStatus;
   createdAt: Date | string;
 }
 

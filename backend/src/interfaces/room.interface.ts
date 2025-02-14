@@ -1,4 +1,4 @@
-import Status from "@/enums/status.enum";
+import RoomStatus from "@/enums/status.enum";
 import { ObjectId } from "mongoose";
 import Player from "./player.interface";
 import Theme from "./theme.interface";
@@ -11,7 +11,7 @@ interface Room {
   playerLimit: number;
   theme: Theme;
   currendDrawer?: string;
-  status: Status;
+  status: RoomStatus;
   createdAt: Date;
 }
 

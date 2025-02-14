@@ -1,7 +1,7 @@
-enum Status {
-  Waiting = "waiting",
-  Playing = "playing",
-  Finished = "finished",
+enum RoomStatus {
+  Waiting = "WAITING",
+  Playing = "PLAYING",
+  Finished = "FINISHED",
 }
 
-export default Status;
+export default RoomStatus;
