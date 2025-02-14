@@ -11,8 +11,8 @@ class PlayerService {
   public roomModel = RoomModel;
 
   public async findAllPlayers(): Promise<Player[]> {
-    const rooms: Player[] = await this.model.find();
-    return rooms;
+    const players: Player[] = await this.model.find();
+    return players;
   }
 
   public async findPlayerById(playerId: string): Promise<Player> {
@@ -20,10 +20,10 @@ class PlayerService {
     if (!validateObjectId(playerId))
       throw new HttpError(400, "PlayerId is invalid");
 
-    const room: Player | null = await this.model.findOne({ _id: playerId });
-    if (!room) throw new HttpError(409, "Player doesn't exist");
+    const player: Player | null = await this.model.findOne({ _id: playerId });
+    if (!player) throw new HttpError(409, "Player doesn't exist");
 
-    return room;
+    return player;
   }
 
   public async createPlayer(
@@ -35,17 +35,17 @@ class PlayerService {
     };
 
     const createdPlayer = await this.model.create(player);
-    if (!createdPlayer) throw new HttpError(500, "Error creating user");
+    if (!createdPlayer) throw new HttpError(500, "Error creating player");
 
     return createdPlayer;
   }
 
   public async deletePlayerById(playerId: string): Promise<Player> {
-    const deletedRoom: Player | null =
+    const deletedPlayer: Player | null =
       await this.model.findByIdAndDelete(playerId);
-    if (!deletedRoom) throw new HttpError(409, "Player doesn't exist");
+    if (!deletedPlayer) throw new HttpError(409, "Player doesn't exist");
 
-    return deletedRoom;
+    return deletedPlayer;
   }
 
   public async addPlayerToRoomByRoomId(
@@ -70,7 +70,7 @@ class PlayerService {
     };
 
     const createdPlayer = await this.model.create(player);
-    if (!createdPlayer) throw new HttpError(500, "Error creating user");
+    if (!createdPlayer) throw new HttpError(500, "Error creating player");
 
     room.players.push(createdPlayer.id);
     await room.save();
