@@ -36,8 +36,14 @@ Fartic is a drawing game, just like Gartic.
 2. Install dependencies on both directories:
 
    ```bash
-   cd ./frontend yarn install
-   cd ./backend yarn install
+   yarn install:frontend
+   yarn install:backend
+   ```
+
+   or with
+
+   ```bash
+   yarn install:all
    ```
 
 3. Run the development server on both directories:
