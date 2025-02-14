@@ -1,3 +1,4 @@
+import RoomStatus from "@/enums/status.enum";
 import Room from "@/interfaces/room.interface";
 import mongoose from "mongoose";
 
@@ -32,8 +33,8 @@ const RoomSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["waiting", "playing", "finished"],
-    default: "waiting",
+    enum: Object.values(RoomStatus),
+    default: RoomStatus.Waiting,
   },
   createdAt: {
     type: Date,
