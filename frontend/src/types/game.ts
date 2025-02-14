@@ -9,6 +9,7 @@ export interface Room {
   currendDrawer?: string;
   playerLimit: number;
   status: RoomStatus;
+  theme: Theme,
   createdAt: Date | string;
 }
 
