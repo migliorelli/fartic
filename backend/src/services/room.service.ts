@@ -30,19 +30,26 @@ class RoomService {
     return room;
   }
 
-  public async createRoom(data: Partial<Room>): Promise<Room> {
+  public async createRoom(data: Partial<Room>): Promise<PopulatedRoom> {
     if (!validateCreateRoom(data))
       throw new HttpError(409, "Invalid room data");
 
     const roomsQuantity = await this.model.countDocuments();
     const name = `Room ${roomsQuantity + 1}`;
 
-    const room: Room = await this.model.create({ ...data, name });
-    return room;
+    const room = await this.model.create({ ...data, name });
+    const populatedRoom = await this.model.populate<PopulatedRoom>(room, {
+      path: "players",
+    });
+
+    return populatedRoom;
   }
 
-  public async deleteRoomById(roomId: string): Promise<Room> {
-    const deletedRoom: Room | null = await this.model.findByIdAndDelete(roomId);
+  public async deleteRoomById(roomId: string): Promise<PopulatedRoom> {
+    const deletedRoom: PopulatedRoom | null = await this.model
+      .findByIdAndDelete(roomId)
+      .populate<PopulatedRoom>("players");
+
     if (!deletedRoom) throw new HttpError(409, "Room doesn't exist");
 
     return deletedRoom;
