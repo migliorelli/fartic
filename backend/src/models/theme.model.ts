@@ -10,6 +10,6 @@ const ThemeSchema = new mongoose.Schema({
   words: [{ type: String }],
 });
 
-const ThemeModel = mongoose.model<Theme>("Room", ThemeSchema);
+const ThemeModel = mongoose.model<Theme>("Theme", ThemeSchema);
 
 export default ThemeModel;
