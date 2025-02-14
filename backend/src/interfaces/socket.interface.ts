@@ -24,7 +24,7 @@ interface EmitEvents {
     type: MessageType,
   ) => void;
 
-  "player:joined": (socketId: string, username: string) => void;
+  "player:joined": (socketId: string, username: string, tag: string) => void;
   "player:left": (socketId: string) => void;
 }
 

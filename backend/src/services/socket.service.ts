@@ -41,14 +41,16 @@ class SocketService {
       try {
         const socketId = client.id.toString();
 
-        await this.playerService.addPlayerToRoomByRoomId(
+        const { player } = await this.playerService.addPlayerToRoomByRoomId(
           roomId,
           socketId,
           username,
         );
 
         client.join(roomId);
-        client.nsp.to(roomId).emit("player:joined", socketId, username);
+        client.nsp
+          .to(roomId)
+          .emit("player:joined", socketId, username, player.tag);
       } catch (error) {
         console.error(
           `SOCKET /rooms room:join => Message: ${(error as Error).message}`,
