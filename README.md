@@ -43,8 +43,14 @@ Fartic is a drawing game, just like Gartic.
 3. Run the development server on both directories:
 
    ```bash
-   cd ./frontend yarn dev
-   cd ./backend yarn dev
+   yarn dev:frontend
+   yarn dev:backend
+   ```
+
+   or with
+
+   ```bash
+   yarn dev
    ```
 
 4. Open your browser at [http://localhost:5173](http://localhost:5173) to view the app.
