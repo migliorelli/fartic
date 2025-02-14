@@ -7,16 +7,17 @@ interface Room {
   _id: string;
   name: string;
   players: ObjectId[];
+  theme: ObjectId;
   currentWord?: string;
   playerLimit: number;
-  theme: Theme;
   currendDrawer?: string;
   status: RoomStatus;
   createdAt: Date;
 }
 
-export interface PopulatedRoom extends Omit<Room, "players"> {
+export interface PopulatedRoom extends Omit<Room, "players" | "theme"> {
   players: Player[];
+  theme: Theme;
 }
 
 export default Room;
