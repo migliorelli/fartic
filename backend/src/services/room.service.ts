@@ -4,9 +4,11 @@ import RoomModel from "@/models/room.model";
 import { isEmpty } from "@/utils/util";
 import { validateObjectId } from "@/validators/objectid.validator";
 import { validateCreateRoom } from "@/validators/room.validator";
+import ThemeService from "./theme.service";
 
 class RoomService {
   public model = RoomModel;
+  public themeService = new ThemeService();
 
   public async findAllRooms(): Promise<PopulatedRoom[]> {
     const rooms: PopulatedRoom[] = await this.model
@@ -22,6 +24,18 @@ class RoomService {
       .populate<PopulatedRoom>("players theme");
 
     return rooms;
+  }
+
+  public async findRoomByTag(roomTag: string): Promise<PopulatedRoom> {
+    if (isEmpty(roomTag)) throw new HttpError(400, "RoomTag is empty");
+
+    const room: PopulatedRoom | null = await this.model
+      .findOne({ tag: roomTag })
+      .populate<PopulatedRoom>("players theme");
+
+    if (!room) throw new HttpError(409, "Room doesn't exist");
+
+    return room;
   }
 
   public async findRoomById(roomId: string): Promise<PopulatedRoom> {
@@ -42,10 +56,11 @@ class RoomService {
     if (!validateCreateRoom(data))
       throw new HttpError(409, "Invalid room data");
 
-    const roomsQuantity = await this.model.countDocuments();
-    const name = `Room ${roomsQuantity + 1}`;
+    const theme = await this.themeService.findThemeById(String(data.theme));
+    const tag = await this.model.generateTag();
+    const name = `${theme.name.charAt(0).toUpperCase() + theme.name.slice(1)} #${tag}`;
 
-    const room = await this.model.create({ ...data, name });
+    const room = await this.model.create({ ...data, name, tag });
     const populatedRoom = await this.model.populate<PopulatedRoom>(room, {
       path: "players theme",
     });
