@@ -8,6 +8,10 @@ const ThemeSchema = new mongoose.Schema({
     trim: true,
   },
   words: [{ type: String }],
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const ThemeModel = mongoose.model<Theme>("Theme", ThemeSchema);
