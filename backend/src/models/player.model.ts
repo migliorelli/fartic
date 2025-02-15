@@ -25,19 +25,21 @@ const PlayerSchema = new mongoose.Schema(
       required: true,
       unique: true,
       trim: true,
+      length: 4,
     },
   },
   {
     timestamps: true,
     statics: {
       generateTag: async function () {
-        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        const characters =
+          "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789";
         let tag;
         let isUnique = false;
 
         while (!isUnique) {
-          tag = "#";
-          for (let i = 0; i < 8; i++) {
+          tag = "";
+          for (let i = 0; i < 4; i++) {
             tag += characters.charAt(
               Math.floor(Math.random() * characters.length),
             );
