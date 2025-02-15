@@ -41,7 +41,7 @@ const inputAttrs = computed(() => {
 
 <template>
   <div
-    class="min-5-10 relative flex shrink grow flex-col items-center justify-start"
+    class="relative flex min-h-10 shrink grow flex-col items-center justify-start"
   >
     <label
       v-if="label"

@@ -38,7 +38,7 @@ const onSelect = (event: Event) => {
 
 <template>
   <div
-    class="min-5-10 relative flex shrink grow flex-col items-center justify-start"
+    class="relative flex min-h-10 shrink grow flex-col items-center justify-start"
   >
     <label
       v-if="label"
@@ -58,9 +58,9 @@ const onSelect = (event: Event) => {
       :class="
         twMerge(
           'h-10 w-full appearance-none rounded-lg border-1 border-gray-200 px-3 py-0 text-black ring-2 ring-transparent ring-offset-2 transition-all outline-none focus:ring-violet-500 disabled:cursor-not-allowed disabled:opacity-50',
+          modelValue === 'default' && 'text-gray-400',
           error &&
             'border-rose-300 bg-rose-100 text-rose-900 placeholder-rose-500 focus:ring-rose-500',
-          modelValue === 'default' && 'text-gray-400',
           props.class,
         )
       "
