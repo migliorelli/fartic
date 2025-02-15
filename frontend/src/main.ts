@@ -4,7 +4,7 @@ import http, { AxiosKey } from "./lib/http";
 import router from "./router";
 import pinia from "./store/pinia";
 import "./styles/jse.css";
-import "./styles/main.css";
+import "./styles/style.css";
 import "./styles/transitions.css";
 
 const app = createApp(App);
