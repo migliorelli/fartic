@@ -22,7 +22,7 @@ const fetchRooms = async () => {
   if (!axios) return;
 
   try {
-    const response = await axios.get("/rooms");
+    const response = await axios.get("/rooms/public");
     rooms.value = response.data.data;
   } catch (e) {
     const err = e as AxiosError;
@@ -85,7 +85,7 @@ onMounted(async () => {
           v-if="!loading && !error && rooms.length === 0"
           class="text-center text-gray-600"
         >
-          No rooms available.
+          No public rooms available.
           <button
             class="cursor-pointer font-semibold text-violet-400 underline hover:text-violet-800"
             @click="creating = true"

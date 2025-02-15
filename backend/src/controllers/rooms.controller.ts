@@ -13,6 +13,19 @@ class RoomsController {
     }
   };
 
+  public getPublicRooms = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const roomsData = await this.service.findAllPublicRooms();
+      res.status(200).json({ data: roomsData, message: "findAllPublic" });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   public getRoomById = async (
     req: Request,
     res: Response,

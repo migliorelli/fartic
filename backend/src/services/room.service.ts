@@ -16,6 +16,14 @@ class RoomService {
     return rooms;
   }
 
+  public async findAllPublicRooms(): Promise<PopulatedRoom[]> {
+    const rooms: PopulatedRoom[] = await this.model
+      .find({ private: false })
+      .populate<PopulatedRoom>("players theme");
+
+    return rooms;
+  }
+
   public async findRoomById(roomId: string): Promise<PopulatedRoom> {
     if (isEmpty(roomId)) throw new HttpError(400, "RoomId is empty");
     if (!validateObjectId(roomId))
