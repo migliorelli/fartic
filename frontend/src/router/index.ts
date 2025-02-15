@@ -6,9 +6,15 @@ import {
 import useGameStore from "../store/game";
 import GameView from "../views/GameView.vue";
 import LoginView from "../views/LoginView.vue";
+import NotFoundView from "../views/NotFoundView.vue";
 import RoomsView from "../views/RoomsView.vue";
 
 const routes: RouteRecordRaw[] = [
+  {
+    path: "/:pathMatch(.*)*",
+    component: NotFoundView,
+    name: "NotFound",
+  },
   {
     path: "/",
     component: LoginView,
