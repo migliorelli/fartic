@@ -39,20 +39,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Suspense v-if="creating">
-    <template #default>
-      <CreateRoomModal @close="creating = false" />
-    </template>
-    <template #fallback>
-      <div
-        class="fixed inset-0 z-50 flex items-center justify-center bg-[#00000050]"
-      >
-        <div
-          class="h-10 w-10 animate-spin rounded-full border-4 border-white border-t-transparent"
-        ></div>
-      </div>
-    </template>
-  </Suspense>
+  <CreateRoomModal v-if="creating" @close="creating = false" />
 
   <main class="h-full w-full">
     <div class="container mx-auto flex h-full flex-col p-4 pb-0">

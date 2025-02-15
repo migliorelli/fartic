@@ -6,6 +6,7 @@ import type { Theme } from "../../types/game";
 import Button from "../ui/Button.vue";
 import Checkbox from "../ui/Checkbox.vue";
 import Input from "../ui/Input.vue";
+import LoadingSpin from "../ui/LoadingSpin.vue";
 import Select from "../ui/Select.vue";
 
 interface Emits {
@@ -14,6 +15,7 @@ interface Emits {
 
 const emit = defineEmits<Emits>();
 const axios = inject(AxiosKey);
+const loading = ref(true);
 
 const limit = ref("8");
 const limitError = ref<null | string>(null);
@@ -32,6 +34,7 @@ const options = computed(() =>
 
 const fetchThemes = async () => {
   if (!axios) return;
+  loading.value = true;
 
   try {
     const response = await axios.get("/themes");
@@ -39,6 +42,8 @@ const fetchThemes = async () => {
   } catch (error) {
     console.error(error);
     emit("close");
+  } finally {
+    loading.value = false;
   }
 };
 
@@ -93,17 +98,17 @@ const handleSubmit = () => {
   console.log("Creating room...");
 };
 
-// prevent scroll when modal is open
 onMounted(async () => {
+  await fetchThemes();
+
+  // prevent scroll when modal is open
   document.body.style.setProperty("overflow", "hidden");
 });
 
-// enable scroll when modal is closed
 onUnmounted(() => {
+  // enable scroll when modal is closed
   document.body.style.setProperty("overflow", "auto");
 });
-
-await fetchThemes();
 </script>
 
 <template>
@@ -113,9 +118,11 @@ await fetchThemes();
     >
       <div
         @click.stop="handleClose"
-        class="h-full w-full bg-black opacity-50"
-      />
-      <div class="absolute w-full max-w-md p-4">
+        class="grid h-full w-full place-items-center bg-black/50"
+      >
+        <LoadingSpin v-if="loading" class="size-20 border-8 border-white" />
+      </div>
+      <div class="absolute w-full max-w-md p-4" v-if="!loading">
         <div class="rounded-xl border-1 border-gray-100 bg-white p-6 shadow-sm">
           <div class="flex items-center justify-between">
             <h2 class="text-2xl font-bold">Create Room</h2>
