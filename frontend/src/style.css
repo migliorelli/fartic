@@ -8,6 +8,11 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --jse-theme-color: theme("colors.violet.600");
+  --jse-theme-color-highlight: theme("colors.violet.500");
+  --jse-a-color: theme("colors.violet.600");
+  --item-is-active-bg: theme("colors.violet.600");
 }
 
 body {
@@ -37,4 +42,25 @@ input::-webkit-inner-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+.jse-menu {
+  @apply rounded-t-lg;
+}
+
+.jse-status-bar {
+  @apply rounded-b-lg;
+}
+
+.jse-modal .list-item {
+  --item-is-active-bg: theme("colors.violet.600");
+  --item-hover-bg: theme("colors.violet.100");
+}
+
+.jse-first {
+  border-radius: 0.25rem 0 0 0.25rem !important;
+}
+
+.jse-last {
+  border-radius: 0 0.25rem 0.25rem 0 !important;
 }
