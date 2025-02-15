@@ -2,6 +2,10 @@ import RoomStatus from "@/enums/status.enum";
 import Room from "@/interfaces/room.interface";
 import mongoose from "mongoose";
 
+interface RoomModel extends mongoose.Model<Room> {
+  generateTag: () => Promise<string>;
+}
+
 const RoomSchema = new mongoose.Schema(
   {
     name: {
@@ -42,15 +46,48 @@ const RoomSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    tag: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      length: 4,
+    },
     status: {
       type: String,
       enum: Object.values(RoomStatus),
       default: RoomStatus.Waiting,
     },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+    statics: {
+      generateTag: async function () {
+        const characters =
+          "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789";
+        let tag;
+        let isUnique = false;
+
+        while (!isUnique) {
+          tag = "";
+          for (let i = 0; i < 4; i++) {
+            tag += characters.charAt(
+              Math.floor(Math.random() * characters.length),
+            );
+          }
+
+          const existingRoom = await this.findOne({ tag });
+          if (!existingRoom) {
+            isUnique = true;
+          }
+        }
+
+        return tag;
+      },
+    },
+  },
 );
 
-const RoomModel = mongoose.model<Room>("Room", RoomSchema);
+const RoomModel = mongoose.model<Room, RoomModel>("Room", RoomSchema);
 
 export default RoomModel;
