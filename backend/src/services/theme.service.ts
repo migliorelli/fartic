@@ -28,7 +28,11 @@ class ThemeService {
     if (!validateCreateTheme(data))
       throw new HttpError(400, "Invalid theme data");
 
-    const createdTheme = await this.model.create(data);
+    const createdTheme = await this.model.create({
+      ...data,
+      name: data.name.toLowerCase(),
+    });
+
     if (!createdTheme) throw new HttpError(500, "Error creating theme");
 
     return createdTheme;
