@@ -9,7 +9,9 @@ export interface Room {
   currendDrawer?: string;
   playerLimit: number;
   status: RoomStatus;
-  theme: Theme,
+  theme: Theme;
+  private: boolean;
+  targetPontuation: number;
   createdAt: Date | string;
 }
 

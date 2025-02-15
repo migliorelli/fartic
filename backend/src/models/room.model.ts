@@ -23,6 +23,16 @@ const RoomSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    targetPontuation: {
+      type: Number,
+      required: true,
+      default: 120,
+    },
+    private: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
     playerLimit: {
       type: Number,
       required: true,

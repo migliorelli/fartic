@@ -12,6 +12,8 @@ interface Room {
   playerLimit: number;
   currendDrawer?: string;
   status: RoomStatus;
+  private: boolean;
+  targetPontuation: number;
   createdAt: Date;
 }
 
