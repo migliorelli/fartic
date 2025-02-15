@@ -118,7 +118,7 @@ const handleSubmit = async () => {
 
   try {
     const response = await axios.post("/rooms", {
-      limit: Number(limit.value),
+      playerLimit: Number(limit.value),
       targetPontuation: Number(targetPontuation.value),
       theme: selectedTheme.value,
       private: privateRoom.value,
