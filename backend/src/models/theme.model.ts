@@ -7,6 +7,8 @@ const ThemeSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      unique: true,
+      dropDups: true,
     },
     words: [{ type: String }],
   },
