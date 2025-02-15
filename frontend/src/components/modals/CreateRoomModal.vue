@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import { X } from "lucide-vue-next";
-import { computed, inject, onMounted, onUnmounted, ref, watch } from "vue";
+import {
+  computed,
+  inject,
+  onBeforeUnmount,
+  onMounted,
+  onUnmounted,
+  ref,
+  watch,
+} from "vue";
 import { AxiosKey } from "../../lib/http";
 import type { Theme } from "../../types/game";
 import Button from "../ui/Button.vue";
@@ -16,6 +24,7 @@ interface Emits {
 const emit = defineEmits<Emits>();
 const axios = inject(AxiosKey);
 const loading = ref(true);
+const open = ref(false);
 
 const limit = ref("8");
 const limitError = ref<null | string>(null);
@@ -32,6 +41,10 @@ const options = computed(() =>
   themes.value.map((theme) => ({ value: theme._id, label: theme.name })),
 );
 
+const handleClose = () => {
+  open.value = false;
+};
+
 const fetchThemes = async () => {
   if (!axios) return;
   loading.value = true;
@@ -41,14 +54,10 @@ const fetchThemes = async () => {
     themes.value = response.data.data;
   } catch (error) {
     console.error(error);
-    emit("close");
+    handleClose();
   } finally {
     loading.value = false;
   }
-};
-
-const handleClose = () => {
-  emit("close");
 };
 
 const validate = {
@@ -99,6 +108,8 @@ const handleSubmit = () => {
 };
 
 onMounted(async () => {
+  open.value = true;
+
   await fetchThemes();
 
   // prevent scroll when modal is open
@@ -109,65 +120,77 @@ onUnmounted(() => {
   // enable scroll when modal is closed
   document.body.style.setProperty("overflow", "auto");
 });
+
+onBeforeUnmount(() => {
+  open.value = false;
+});
 </script>
 
 <template>
   <Teleport to="body">
-    <div
-      class="fixed top-0 left-0 z-50 flex h-screen w-screen items-center justify-center"
-    >
+    <Transition name="fade" @after-leave="emit('close')">
       <div
-        @click.stop="handleClose"
-        class="grid h-full w-full place-items-center bg-black/50"
+        v-if="open"
+        class="fixed top-0 left-0 z-50 flex h-screen w-screen items-center justify-center"
       >
-        <LoadingSpin v-if="loading" class="size-20 border-8 border-white" />
-      </div>
-      <div class="absolute w-full max-w-md p-4" v-if="!loading">
-        <div class="rounded-xl border-1 border-gray-100 bg-white p-6 shadow-sm">
-          <div class="flex items-center justify-between">
-            <h2 class="text-2xl font-bold">Create Room</h2>
-            <button
-              @click="handleClose"
-              class="cursor-pointer rounded-lg p-1 hover:bg-gray-100"
+        <div
+          @click.stop="handleClose"
+          class="grid h-full w-full place-items-center bg-black/50"
+        >
+          <LoadingSpin v-if="loading" class="size-20 border-8 border-white" />
+        </div>
+        <div class="absolute w-full max-w-md p-4" v-if="!loading">
+          <div
+            class="rounded-xl border-1 border-gray-100 bg-white p-6 shadow-sm"
+          >
+            <div class="flex items-center justify-between">
+              <h2 class="text-2xl font-bold">Create Room</h2>
+              <button
+                @click="handleClose"
+                class="cursor-pointer rounded-lg p-1 hover:bg-gray-100"
+              >
+                <X :size="24" />
+              </button>
+            </div>
+            <form
+              class="mt-4 flex flex-col gap-4"
+              @submit.prevent="handleSubmit"
             >
-              <X :size="24" />
-            </button>
+              <Input
+                v-model="limit"
+                type="number"
+                placeholder="Users limit"
+                :min="8"
+                label="Users limit"
+                :max="100"
+                :error="limitError"
+              />
+
+              <Input
+                v-model="targetPontuation"
+                type="number"
+                label="Target pontuation"
+                placeholder="Target pontuation"
+                :max="200"
+                :min="50"
+                :error="targetPontuationError"
+              />
+
+              <Select
+                v-model="selectedTheme"
+                :data="options"
+                placeholder="Select theme"
+                :error="themeError"
+                label="Select theme"
+              />
+
+              <Checkbox v-model="privateRoom">Private room</Checkbox>
+
+              <Button>Create</Button>
+            </form>
           </div>
-          <form class="mt-4 flex flex-col gap-4" @submit.prevent="handleSubmit">
-            <Input
-              v-model="limit"
-              type="number"
-              placeholder="Users limit"
-              :min="8"
-              label="Users limit"
-              :max="100"
-              :error="limitError"
-            />
-
-            <Input
-              v-model="targetPontuation"
-              type="number"
-              label="Target pontuation"
-              placeholder="Target pontuation"
-              :max="200"
-              :min="50"
-              :error="targetPontuationError"
-            />
-
-            <Select
-              v-model="selectedTheme"
-              :data="options"
-              placeholder="Select theme"
-              :error="themeError"
-              label="Select theme"
-            />
-
-            <Checkbox v-model="privateRoom">Private room</Checkbox>
-
-            <Button>Create</Button>
-          </form>
         </div>
       </div>
-    </div>
+    </Transition>
   </Teleport>
 </template>
