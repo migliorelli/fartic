@@ -26,6 +26,20 @@ class RoomsController {
     }
   };
 
+  public getRoomByTag = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const roomTag = req.params.tag;
+      const room = await this.service.findRoomByTag(roomTag);
+
+      res.status(200).json({ data: room, message: "findUnique" });
+    } catch (error) {
+      next(error);
+    }
+  };
   public getRoomById = async (
     req: Request,
     res: Response,
