@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { AxiosError } from "axios";
 import { X } from "lucide-vue-next";
 import {
   computed,
@@ -9,6 +10,7 @@ import {
   ref,
   watch,
 } from "vue";
+import { useRouter } from "vue-router";
 import { AxiosKey } from "../../lib/http";
 import type { Theme } from "../../types/game";
 import Button from "../ui/Button.vue";
@@ -22,9 +24,12 @@ interface Emits {
 }
 
 const emit = defineEmits<Emits>();
+const router = useRouter();
 const axios = inject(AxiosKey);
 const loading = ref(true);
+const loadingForm = ref(false);
 const open = ref(false);
+const error = ref<string | null>(null);
 
 const limit = ref("8");
 const limitError = ref<null | string>(null);
@@ -42,7 +47,9 @@ const options = computed(() =>
 );
 
 const handleClose = () => {
-  open.value = false;
+  if (!loadingForm.value) {
+    open.value = false;
+  }
 };
 
 const fetchThemes = async () => {
@@ -94,7 +101,9 @@ watch(selectedTheme, validate.theme);
 watch(limit, validate.limit);
 watch(targetPontuation, validate.target);
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
+  if (!axios) return;
+
   // validate all fields
   Object.values(validate).forEach((value) => {
     value();
@@ -104,7 +113,26 @@ const handleSubmit = () => {
     limitError.value || targetPontuationError.value || themeError.value;
   if (hasError) return;
 
-  console.log("Creating room...");
+  loadingForm.value = true;
+  error.value = null;
+
+  try {
+    const response = await axios.post("/rooms", {
+      limit: Number(limit.value),
+      targetPontuation: Number(targetPontuation.value),
+      theme: selectedTheme.value,
+      private: privateRoom.value,
+    });
+
+    const { data } = response.data;
+    router.push({ name: "Game", params: { id: data._id } });
+  } catch (e) {
+    const err = e as AxiosError;
+    const data = err.response?.data as { message: string };
+    error.value = data.message;
+  } finally {
+    loadingForm.value = false;
+  }
 };
 
 onMounted(async () => {
@@ -147,7 +175,8 @@ onBeforeUnmount(() => {
               <h2 class="text-2xl font-bold">Create Room</h2>
               <button
                 @click="handleClose"
-                class="cursor-pointer rounded-lg p-1 hover:bg-gray-100"
+                class="cursor-pointer rounded-lg p-1 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+                :disabled="loadingForm"
               >
                 <X :size="24" />
               </button>
@@ -186,7 +215,13 @@ onBeforeUnmount(() => {
 
               <Checkbox v-model="privateRoom">Private room</Checkbox>
 
-              <Button>Create</Button>
+              <Button :disabled="loadingForm">
+                <LoadingSpin
+                  v-if="loadingForm"
+                  class="size-4 border-2 border-white"
+                />
+                {{ loadingForm ? "Creating..." : "Create" }}
+              </Button>
             </form>
           </div>
         </div>
