@@ -2,45 +2,44 @@ import RoomStatus from "@/enums/status.enum";
 import Room from "@/interfaces/room.interface";
 import mongoose from "mongoose";
 
-const RoomSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  players: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Player",
+const RoomSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
     },
-  ],
-  theme: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Theme",
+    players: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Player",
+      },
+    ],
+    theme: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Theme",
+    },
+    currentWord: {
+      type: String,
+      required: false,
+    },
+    playerLimit: {
+      type: Number,
+      required: true,
+      default: 8,
+    },
+    currentDrawer: {
+      type: String,
+      required: false,
+    },
+    status: {
+      type: String,
+      enum: Object.values(RoomStatus),
+      default: RoomStatus.Waiting,
+    },
   },
-  currentWord: {
-    type: String,
-    required: false,
-  },
-  playerLimit: {
-    type: Number,
-    required: true,
-    default: 8,
-  },
-  currentDrawer: {
-    type: String,
-    required: false,
-  },
-  status: {
-    type: String,
-    enum: Object.values(RoomStatus),
-    default: RoomStatus.Waiting,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  { timestamps: true },
+);
 
 const RoomModel = mongoose.model<Room>("Room", RoomSchema);
 

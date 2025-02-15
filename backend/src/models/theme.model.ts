@@ -1,18 +1,17 @@
 import Theme from "@/interfaces/theme.interface";
 import mongoose from "mongoose";
 
-const ThemeSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    trim: true,
+const ThemeSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    words: [{ type: String }],
   },
-  words: [{ type: String }],
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  { timestamps: true },
+);
 
 const ThemeModel = mongoose.model<Theme>("Theme", ThemeSchema);
 

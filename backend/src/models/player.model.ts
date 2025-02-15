@@ -26,12 +26,9 @@ const PlayerSchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
   },
   {
+    timestamps: true,
     statics: {
       generateTag: async function () {
         const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
