@@ -24,8 +24,10 @@ const fetchRooms = async () => {
     if (response.status !== 200) throw new Error(response.data.message);
 
     rooms.value = response.data.data;
-  } catch (err) {
-    error.value = (err as Error).message;
+  } catch (e) {
+    const err = e as AxiosError;
+    const data = err.response?.data as { message: string };
+    error.value = data.message;
   } finally {
     loading.value = false;
   }
