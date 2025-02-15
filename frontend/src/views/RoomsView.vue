@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import type { AxiosError } from "axios";
 import { LogOut, Plus, RotateCcw } from "lucide-vue-next";
 import { inject, onMounted, ref } from "vue";
 import RoomCard from "../components/cards/RoomCard.vue";
 import CreateRoomModal from "../components/modals/CreateRoomModal.vue";
 import Button from "../components/ui/Button.vue";
+import LoadingText from "../components/ui/LoadingText.vue";
 import { AxiosKey } from "../lib/http";
 import useGameStore from "../store/game";
 import type { Room } from "../types/game";
@@ -21,8 +23,6 @@ const fetchRooms = async () => {
 
   try {
     const response = await axios.get("/rooms");
-    if (response.status !== 200) throw new Error(response.data.message);
-
     rooms.value = response.data.data;
   } catch (e) {
     const err = e as AxiosError;
@@ -55,7 +55,7 @@ onMounted(async () => {
   </Suspense>
 
   <main class="h-full w-full">
-    <div class="container mx-auto h-full p-4 pb-0">
+    <div class="container mx-auto flex h-full flex-col p-4 pb-0">
       <div class="flex w-full items-center justify-between">
         <div class="flex items-center gap-2">
           <Button
@@ -86,7 +86,32 @@ onMounted(async () => {
         </div>
       </div>
 
-      <div class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <div
+        v-if="loading || error || rooms.length === 0"
+        class="flex shrink grow items-center justify-center gap-4 pb-10 text-lg md:text-xl"
+      >
+        <LoadingText v-if="loading" />
+        <h2 class="text-rose-500" v-if="!loading && error">
+          {{ error }}
+        </h2>
+        <h2
+          v-if="!loading && !error && rooms.length === 0"
+          class="text-center text-gray-600"
+        >
+          No rooms available.
+          <button
+            class="cursor-pointer font-semibold text-violet-400 underline hover:text-violet-800"
+            @click="creating = true"
+          >
+            Create one!
+          </button>
+        </h2>
+      </div>
+
+      <div
+        v-if="!loading && !error && rooms.length > 0"
+        class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3"
+      >
         <RoomCard v-for="room in rooms" :key="room._id" :room="room" />
       </div>
     </div>
