@@ -4,6 +4,7 @@ import {
   type RouteRecordRaw,
 } from "vue-router";
 import useGameStore from "../store/game";
+import AdminView from "../views/AdminView.vue";
 import GameView from "../views/GameView.vue";
 import LoginView from "../views/LoginView.vue";
 import NotFoundView from "../views/NotFoundView.vue";
@@ -30,6 +31,11 @@ const routes: RouteRecordRaw[] = [
     component: GameView,
     name: "Game",
   },
+  {
+    path: "/admin",
+    component: AdminView,
+    name: "Admin",
+  },
 ];
 
 const router = createRouter({
@@ -40,11 +46,14 @@ const router = createRouter({
 router.beforeEach((to, _from) => {
   const game = useGameStore();
 
-  if (to.path !== "/" && !game.logged) {
+  const isLoginPage = to.name === "Login";
+  const isAdminPage = to.name?.toString().startsWith("Admin") || false;
+
+  if (!isLoginPage && !isAdminPage && !game.logged) {
     return { name: "Login" };
   }
 
-  if (to.path === "/" && game.logged) {
+  if (isLoginPage && game.logged) {
     return { name: "Rooms" };
   }
 });
