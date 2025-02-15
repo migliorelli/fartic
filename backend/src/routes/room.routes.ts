@@ -15,6 +15,7 @@ class RoomRoutes implements Routes {
     this.router.get(`${this.path}`, this.roomsController.getRooms);
     this.router.get(`${this.path}/public`, this.roomsController.getPublicRooms);
     this.router.get(`${this.path}/:id`, this.roomsController.getRoomById);
+    this.router.get(`${this.path}/tag/:tag`, this.roomsController.getRoomByTag);
     this.router.post(`${this.path}`, this.roomsController.createRoom);
     this.router.delete(`${this.path}/:id`, this.roomsController.deleteRoom);
   }
