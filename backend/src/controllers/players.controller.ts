@@ -38,7 +38,7 @@ class PlayersController {
     next: NextFunction,
   ) => {
     try {
-      const player = this.service.createPlayer(req.body);
+      const player = await this.service.createPlayer(req.body);
       res.status(200).json({ data: player, message: "create" });
     } catch (error) {
       next(error);

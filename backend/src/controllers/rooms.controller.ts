@@ -34,7 +34,7 @@ class RoomsController {
     next: NextFunction,
   ) => {
     try {
-      const room = this.service.createRoom(req.body);
+      const room = await this.service.createRoom(req.body);
       res.status(200).json({ data: room, message: "create" });
     } catch (error) {
       next(error);

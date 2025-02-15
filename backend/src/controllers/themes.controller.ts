@@ -17,7 +17,11 @@ class ThemesController {
     }
   };
 
-  public getThemeById = async (req: Request, res: Response, next: NextFunction) => {
+  public getThemeById = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
     try {
       const themeId = req.params.id;
       const theme = await this.service.findThemeById(themeId);
@@ -34,7 +38,7 @@ class ThemesController {
     next: NextFunction,
   ) => {
     try {
-      const theme = this.service.createTheme(req.body);
+      const theme = await this.service.createTheme(req.body);
       res.status(200).json({ data: theme, message: "create" });
     } catch (error) {
       next(error);
