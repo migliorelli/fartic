@@ -56,6 +56,13 @@ watch(username, () => {
       </form>
     </div>
   </main>
+  <a
+    href="https://github.com/migliorelli/fartic"
+    target="_blank"
+    class="flex items-center justify-center gap-1 pb-2 transition-colors hover:text-violet-600 md:fixed md:bottom-2 md:left-[50%] md:-translate-x-[50%] md:pb-0"
+  >
+    <Github :size="16" /> Checkout on GitHub
+  </a>
 </template>
 
 <style scoped></style>
