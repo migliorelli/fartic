@@ -1,47 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  line-height: 1.5;
-  font-weight: 400;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
   --jse-theme-color: theme("colors.violet.600");
   --jse-theme-color-highlight: theme("colors.violet.500");
   --jse-a-color: theme("colors.violet.600");
   --item-is-active-bg: theme("colors.violet.600");
-}
-
-body {
-  margin: 0;
-  display: grid;
-  place-items: center;
-  width: 100dvw;
-  min-height: 100dvh;
-}
-
-#app {
-  width: 100%;
-  height: 100%;
-}
-
-@media (min-width: 1400px) {
-  .container {
-    max-width: 1400px;
-  }
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type="number"] {
-  -moz-appearance: textfield;
 }
 
 .jse-menu {
