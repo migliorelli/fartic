@@ -74,7 +74,7 @@ const onSelect = (event: Event) => {
         v-for="option in data"
         :key="option.value"
         :value="option.value"
-        class="text-black"
+        class="text-black capitalize"
       >
         {{ option.label }}
       </option>

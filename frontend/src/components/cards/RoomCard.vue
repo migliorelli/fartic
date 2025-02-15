@@ -25,7 +25,7 @@ defineProps<Props>();
     </div>
     <div class="mt-4 flex w-full items-center justify-between">
       <span class="text-sm text-gray-400">Click to join</span>
-      <span class="text-sm font-bold">{{ room.theme.name }}</span>
+      <span class="text-sm font-bold capitalize">{{ room.theme.name }}</span>
     </div>
   </RouterLink>
 </template>
