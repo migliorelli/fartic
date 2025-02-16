@@ -20,7 +20,7 @@ defineProps<Props>();
         {{ room.name }}
       </h3>
       <div class="flex items-center gap-2 text-sm font-bold text-gray-500">
-        <Users :size="18" /> {{ room.players.length }}
+        <Users :size="18" /> {{ room.players.length }} / {{ room.playerLimit }}
       </div>
     </div>
     <div class="mt-4 flex w-full items-center justify-between">
