@@ -24,4 +24,12 @@ export interface PopulatedRoom extends Omit<Room, "players" | "theme"> {
   theme: Theme;
 }
 
+export interface GameRoom
+  extends Omit<
+    Room,
+    "players" | "playerLimit" | "private" | "createdAt" | "updatedAt" | "theme"
+  > {
+  theme: Theme;
+}
+
 export default Room;
