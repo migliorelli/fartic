@@ -14,6 +14,7 @@ interface Room {
   status: RoomStatus;
   private: boolean;
   targetPontuation: number;
+  tag: string;
   createdAt: Date;
   updatedAt: Date;
 }
