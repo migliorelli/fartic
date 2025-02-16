@@ -41,11 +41,12 @@ class SocketService {
       try {
         const socketId = client.id.toString();
 
-        const { player } = await this.playerService.addPlayerToRoomByRoomId(
-          roomId,
-          socketId,
-          username,
-        );
+        const { player, room } =
+          await this.playerService.addPlayerToRoomByRoomTag(
+            roomTag,
+            socketId,
+            username,
+          );
 
         client.join(roomId);
         client.nsp

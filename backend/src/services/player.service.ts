@@ -1,6 +1,6 @@
 import HttpError from "@/errors/http.error";
 import Player from "@/interfaces/player.interface";
-import Room, { PopulatedRoom } from "@/interfaces/room.interface";
+import { PopulatedRoom } from "@/interfaces/room.interface";
 import PlayerModel from "@/models/player.model";
 import RoomModel from "@/models/room.model";
 import { isEmpty } from "@/utils/util";
@@ -52,21 +52,22 @@ class PlayerService {
     return deletedPlayer;
   }
 
-  public async addPlayerToRoomByRoomId(
-    roomId: string,
+  public async addPlayerToRoomByRoomTag(
+    roomTag: string,
     socketId: string,
     username: string,
-  ): Promise<{ player: Player; room: Room }> {
-    if (isEmpty(roomId)) throw new HttpError(400, "RoomId is empty");
+  ): Promise<{ player: Player; room: PopulatedRoom }> {
+    if (isEmpty(roomTag)) throw new HttpError(400, "RoomTag is empty");
     if (isEmpty(socketId)) throw new HttpError(400, "SocketId is empty");
     if (isEmpty(username)) throw new HttpError(400, "Username is empty");
-    if (!validateObjectId(roomId))
-      throw new HttpError(400, "RoomId is invalid");
 
-    const room = await this.roomModel.findOne({ _id: roomId });
+    const room = await this.roomModel
+      .findOne({ tag: roomTag })
+      .populate<PopulatedRoom>("players");
+
     if (!room) throw new HttpError(409, "Room doesn't exist");
 
-    const player: Omit<Player, "_id"> = {
+    const player: Omit<Player, "_id" | "createdAt" | "updatedAt"> = {
       socketId,
       username,
       score: 0,
