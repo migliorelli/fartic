@@ -15,6 +15,7 @@ interface Room {
   private: boolean;
   targetPontuation: number;
   createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface PopulatedRoom extends Omit<Room, "players" | "theme"> {
