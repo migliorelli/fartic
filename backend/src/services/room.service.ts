@@ -4,6 +4,7 @@ import RoomModel from "@/models/room.model";
 import { isEmpty } from "@/utils/util";
 import { validateObjectId } from "@/validators/objectid.validator";
 import { validateCreateRoom } from "@/validators/room.validator";
+import { Document } from "mongoose";
 import PlayerService from "./player.service";
 import ThemeService from "./theme.service";
 
@@ -77,7 +78,7 @@ class RoomService {
 
     const room = await this.model
       .findById(roomId)
-      .populate<PopulatedRoom>("players theme");
+      .populate<PopulatedRoom & Document>("players theme");
     if (!room) throw new HttpError(409, "Room doesn't exist");
 
     if (room.players && room.players.length > 0) {
@@ -86,13 +87,8 @@ class RoomService {
       );
     }
 
-    const deletedRoom = await this.model
-      .findByIdAndDelete(roomId)
-      .populate<PopulatedRoom>("players theme");
-
-    if (!deletedRoom) throw new HttpError(409, "Room doesn't exist");
-
-    return deletedRoom;
+    await room.deleteOne();
+    return room;
   }
 }
 
