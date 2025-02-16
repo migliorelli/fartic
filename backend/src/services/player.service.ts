@@ -66,10 +66,7 @@ class PlayerService {
     if (isEmpty(socketId)) throw new HttpError(400, "SocketId is empty");
     if (isEmpty(username)) throw new HttpError(400, "Username is empty");
 
-    const room = await this.roomModel
-      .findOne({ tag: roomTag })
-      .populate<PopulatedRoom>("players");
-
+    const room = await this.roomModel.findOne({ tag: roomTag });
     if (!room) throw new HttpError(409, "Room doesn't exist");
 
     const player: Omit<Player, "_id" | "createdAt" | "updatedAt"> = {
@@ -85,8 +82,12 @@ class PlayerService {
     room.players.push(createdPlayer.id);
     await room.save();
 
+    const pRoom = await this.model.populate<PopulatedRoom>(room, {
+      path: "players theme",
+    });
+
     return {
-      room,
+      room: pRoom,
       player: createdPlayer,
     };
   }
