@@ -1,4 +1,3 @@
-import MessageType from "@/enums/message.enum";
 import { AppSocket, SocketClient } from "@/interfaces/socket.interface";
 import PlayerService from "./player.service";
 import RoomService from "./room.service";
@@ -11,7 +10,9 @@ class SocketService {
   constructor(socket: AppSocket) {
     this.socket = socket;
 
-    this.socket.of("/game").on("connection", async (client) => {
+    this.socket.on("connection", async (client) => {
+      client.on("ping", () => client.emit("pong", "pong!"));
+
       this.setupConnection(client);
       this.setupRooms(client);
       this.setupAwser(client);
@@ -37,7 +38,7 @@ class SocketService {
   }
 
   private async setupRooms(client: SocketClient) {
-    client.on("room:join", async (roomId, username) => {
+    client.on("room:join", async (roomTag, username) => {
       try {
         const socketId = client.id.toString();
 
@@ -48,10 +49,19 @@ class SocketService {
             username,
           );
 
-        client.join(roomId);
-        client.nsp
-          .to(roomId)
-          .emit("player:joined", socketId, username, player.tag);
+        const {
+          players,
+          playerLimit,
+          private: _private,
+          createdAt,
+          updatedAt,
+          ...gameRoom
+        } = room;
+
+        console.log("dasjkldnjkasjdklsa");
+        client.join(roomTag);
+        client.nsp.to(roomTag).emit("game:setup", gameRoom, player, players);
+        client.nsp.to(roomTag).emit("player:joined", player);
       } catch (error) {
         console.error(
           `SOCKET /rooms room:join => Message: ${(error as Error).message}`,
@@ -61,18 +71,14 @@ class SocketService {
   }
 
   private async setupAwser(client: SocketClient) {
-    client.on("awser:send", (roomId, username, content) => {
-      client.nsp
-        .to(roomId)
-        .emit("awser:receive", roomId, username, content, MessageType.Message);
+    client.on("awser:send", (msg) => {
+      client.nsp.to(msg.roomTag).emit("awser:receive", msg);
     });
   }
 
   private async setupMessage(client: SocketClient) {
-    client.on("chat:send", (roomId, username, content) => {
-      client.nsp
-        .to(roomId)
-        .emit("chat:receive", roomId, username, content, MessageType.Message);
+    client.on("chat:send", (msg) => {
+      client.nsp.to(msg.roomTag).emit("chat:receive", msg);
     });
   }
 }

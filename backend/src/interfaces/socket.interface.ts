@@ -1,30 +1,25 @@
-import MessageType from "@/enums/message.enum";
 import { DefaultEventsMap, Server, Socket } from "socket.io";
+import Message from "./message.interface";
+import Player from "./player.interface";
+import { GameRoom } from "./room.interface";
 
 interface ListenEvents {
-  "room:join": (roomId: string, username: string) => void;
-  "room:leave": (roomId: string) => void;
+  ping: () => void;
+  "room:join": (roomTag: string, username: string) => void;
+  "room:leave": (roomTag: string) => void;
 
-  "awser:send": (roomId: string, username: string, content: string) => void;
-  "chat:send": (roomId: string, username: string, content: string) => void;
+  "awser:send": (message: Message) => void;
+  "chat:send": (message: Message) => void;
 }
 
 interface EmitEvents {
-  "awser:receive": (
-    roomId: string,
-    title: string,
-    content: string,
-    type: MessageType,
-  ) => void;
+  pong: (pong: string) => void;
+  "game:setup": (gameRoom: GameRoom, player: Player, players: Player[]) => void;
 
-  "chat:receive": (
-    roomId: string,
-    title: string,
-    content: string,
-    type: MessageType,
-  ) => void;
+  "awser:receive": (message: Message) => void;
+  "chat:receive": (message: Message) => void;
 
-  "player:joined": (socketId: string, username: string, tag: string) => void;
+  "player:joined": (player: Player) => void;
   "player:left": (socketId: string) => void;
 }
 
