@@ -1,3 +1,4 @@
+import { GameRoom } from "@/interfaces/room.interface";
 import { AppSocket, SocketClient } from "@/interfaces/socket.interface";
 import PlayerService from "@/services/player.service";
 import RoomService from "@/services/room.service";
@@ -49,18 +50,21 @@ class SocketController {
             username,
           );
 
-        const {
-          players,
-          playerLimit,
-          private: _private,
-          createdAt,
-          updatedAt,
-          ...gameRoom
-        } = room;
+        const gameRoom: GameRoom = {
+          _id: room._id,
+          name: room.name,
+          status: room.status,
+          tag: room.tag,
+          targetPontuation: room.targetPontuation,
+          theme: room.theme,
+          currendDrawer: room.currendDrawer,
+          currentWord: room.currentWord,
+        };
 
-        console.log("dasjkldnjkasjdklsa");
         client.join(roomTag);
-        client.nsp.to(roomTag).emit("game:setup", gameRoom, player, players);
+        client.nsp
+          .to(roomTag)
+          .emit("game:setup", gameRoom, player, room.players);
         client.nsp.to(roomTag).emit("player:joined", player);
       } catch (error) {
         console.error(
@@ -88,6 +92,7 @@ class SocketController {
   private async setupAwser(client: SocketClient) {
     client.on("awser:send", (msg) => {
       client.nsp.to(msg.roomTag).emit("awser:receive", msg);
+      console.log("AWSER:RECEIVE:", msg);
     });
   }
 
