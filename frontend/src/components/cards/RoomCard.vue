@@ -13,7 +13,7 @@ defineProps<Props>();
 <template>
   <RouterLink
     class="bg-card text-card-foreground cursor-pointer rounded-xl border border-gray-200 p-4 shadow-sm transition-shadow hover:shadow-lg"
-    :to="{ name: 'Game', params: { id: room._id } }"
+    :to="{ name: 'Game', params: { tag: room.tag } }"
   >
     <div class="flex w-full items-center justify-between">
       <h3 class="text-2xl font-semibold">
