@@ -1,8 +1,8 @@
 import { AppSocket, SocketClient } from "@/interfaces/socket.interface";
-import PlayerService from "./player.service";
-import RoomService from "./room.service";
+import PlayerService from "@/services/player.service";
+import RoomService from "@/services/room.service";
 
-class SocketService {
+class SocketController {
   public socket: AppSocket;
   roomService = new RoomService();
   playerService = new PlayerService();
@@ -83,4 +83,4 @@ class SocketService {
   }
 }
 
-export default SocketService;
+export default SocketController;

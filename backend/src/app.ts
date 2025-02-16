@@ -10,8 +10,8 @@ import mongoose from "mongoose";
 import { Server as SocketServer } from "socket.io";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
+import SocketController from "./controllers/socket.controller";
 import errorMiddleware from "./middlewares/error.middleware";
-import SocketService from "./services/socket.service";
 
 class App {
   public server = createServer();
@@ -58,7 +58,7 @@ class App {
       },
     });
 
-    new SocketService(this.socket);
+    new SocketController(this.socket);
   }
 
   private async connectDatabase() {
