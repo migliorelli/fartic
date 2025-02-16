@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "nodemon --exec ts-node -r tsconfig-paths/register ./src/index.ts"
+    "dev": "set DEBUG=socket.io* && nodemon --exec ts-node -r tsconfig-paths/register ./src/index.ts"
   },
   "license": "MIT",
   "dependencies": {
