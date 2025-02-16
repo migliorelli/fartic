@@ -31,7 +31,7 @@ class SocketController {
         client.nsp.to(room._id).emit("player:left", socketId);
       } catch (error) {
         console.error(
-          `SOCKET /rooms disconnect => Message: ${(error as Error).message}`,
+          `SOCKET disconnect => Message: ${(error as Error).message}`,
         );
       }
     });
@@ -64,7 +64,22 @@ class SocketController {
         client.nsp.to(roomTag).emit("player:joined", player);
       } catch (error) {
         console.error(
-          `SOCKET /rooms room:join => Message: ${(error as Error).message}`,
+          `SOCKET room:join => Message: ${(error as Error).message}`,
+        );
+      }
+    });
+
+    client.on("room:leave", async () => {
+      try {
+        const socketId = client.id.toString();
+
+        const { room } =
+          await this.playerService.removePlayerFromRoomBySocketId(socketId);
+
+        client.nsp.to(room._id).emit("player:left", socketId);
+      } catch (error) {
+        console.error(
+          `SOCKET room:leave => Message: ${(error as Error).message}`,
         );
       }
     });
