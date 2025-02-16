@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Github } from "lucide-vue-next";
 import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import Button from "../components/ui/Button.vue";
