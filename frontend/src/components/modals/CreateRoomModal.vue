@@ -125,7 +125,7 @@ const handleSubmit = async () => {
     });
 
     const { data } = response.data;
-    router.push({ name: "Game", params: { id: data._id } });
+    router.push({ name: "Game", params: { tag: data.tag } });
   } catch (e) {
     const err = e as AxiosError;
     const data = err.response?.data as { message?: string };
