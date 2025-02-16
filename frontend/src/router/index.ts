@@ -43,11 +43,12 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, _from) => {
+router.beforeEach(async (to, _from) => {
   const game = useGameStore();
 
   const isLoginPage = to.name === "Login";
   const isAdminPage = to.name?.toString().startsWith("Admin") || false;
+  const isGamePage = to.name === "Game";
 
   if (!isLoginPage && !isAdminPage && !game.logged) {
     return { name: "Login" };
@@ -55,6 +56,24 @@ router.beforeEach((to, _from) => {
 
   if (isLoginPage && game.logged) {
     return { name: "Rooms" };
+  }
+
+  if (isGamePage) {
+    const tag = to.params.tag;
+
+    if (typeof tag !== "string") {
+      return { name: "NotFound" };
+    }
+
+    try {
+      await game.joinGame(tag);
+      if (!game.game.initalized) {
+        throw new Error("Game failed to initialize");
+      }
+    } catch (error) {
+      console.error("Failed to join game:", error);
+      return { name: "Rooms" };
+    }
   }
 });
 
