@@ -11,6 +11,7 @@ import { Server as SocketServer } from "socket.io";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import errorMiddleware from "./middlewares/error.middleware";
+import SocketService from "./services/socket.service";
 
 class App {
   public server = createServer();
@@ -50,11 +51,14 @@ class App {
 
   private async initSocket() {
     this.socket = new SocketServer(this.server, {
+      path: `/${VERSION}/socket.io`,
       cors: {
         origin: ORIGIN,
         methods: ["GET", "POST"],
       },
     });
+
+    new SocketService(this.socket);
   }
 
   private async connectDatabase() {
