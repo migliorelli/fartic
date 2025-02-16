@@ -11,12 +11,25 @@ export interface Room {
   status: RoomStatus;
   theme: Theme;
   private: boolean;
+  tag: string;
   targetPontuation: number;
+  updatedAt: Date | string;
   createdAt: Date | string;
 }
 
+export interface GameRoom {
+  _id: string;
+  tag: string;
+  name: string;
+  currentWord?: string;
+  currentDrawer?: string;
+  status: RoomStatus;
+  theme: Theme;
+  targetPontuation: number;
+}
+
 export interface Message {
-  roomId: string;
+  roomTag: string;
   title: string;
   content: string;
   type: MessageType;
@@ -26,6 +39,8 @@ export interface Theme {
   _id: string;
   name: string;
   words: string[];
+  updatedAt: Date | string;
+  createdAt: Date | string;
 }
 
 export interface Player {
@@ -34,4 +49,6 @@ export interface Player {
   username: string;
   score: number;
   tag: string;
+  updatedAt: Date | string;
+  createdAt: Date | string;
 }
