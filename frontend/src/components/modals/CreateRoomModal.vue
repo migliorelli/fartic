@@ -128,8 +128,8 @@ const handleSubmit = async () => {
     router.push({ name: "Game", params: { id: data._id } });
   } catch (e) {
     const err = e as AxiosError;
-    const data = err.response?.data as { message: string };
-    error.value = data.message;
+    const data = err.response?.data as { message?: string };
+    error.value = data?.message ?? err.message;
   } finally {
     loadingForm.value = false;
   }
@@ -222,6 +222,10 @@ onBeforeUnmount(() => {
                 />
                 {{ loadingForm ? "Creating..." : "Create" }}
               </Button>
+
+              <div v-if="error" class="text-center text-rose-500">
+                {{ error }}
+              </div>
             </form>
           </div>
         </div>
