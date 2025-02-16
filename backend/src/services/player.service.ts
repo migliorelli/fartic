@@ -6,6 +6,7 @@ import RoomModel from "@/models/room.model";
 import { isEmpty } from "@/utils/util";
 import { validateObjectId } from "@/validators/objectid.validator";
 import { validateCreatePlayer } from "@/validators/player.validator";
+import { Document } from "mongoose";
 
 class PlayerService {
   public model = PlayerModel;
@@ -94,12 +95,14 @@ class PlayerService {
     socketId: string,
   ): Promise<{ player: Player; room: PopulatedRoom }> {
     if (isEmpty(socketId)) throw new HttpError(400, "SocketId is empty");
-    if (!validateObjectId(socketId))
-      throw new HttpError(400, "SocketId is invalid");
 
-    const room = await this.roomModel
-      .findOne({ "players.socketId": socketId })
-      .populate<PopulatedRoom>("players");
+    const rooms = await this.roomModel
+      .find()
+      .populate<PopulatedRoom & Document>("players");
+    const room = rooms.find((r) => {
+      return r.players.some((p) => p.socketId === socketId);
+    });
+
     if (!room) throw new HttpError(409, "Room doesn't exist");
 
     let player: Player | null = null;
@@ -112,7 +115,7 @@ class PlayerService {
     });
 
     if (player !== null) {
-      await this.model.findByIdAndDelete((player as Player)._id);
+      await this.deletePlayerById((player as Player)._id);
     }
 
     await room.save();
