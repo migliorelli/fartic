@@ -52,6 +52,10 @@ class PlayerService {
     return deletedPlayer;
   }
 
+  public async deleteMultiplePlayers(ids: string[]): Promise<void> {
+    await this.model.deleteMany({ _id: { $in: ids } });
+  }
+
   public async addPlayerToRoomByRoomTag(
     roomTag: string,
     socketId: string,

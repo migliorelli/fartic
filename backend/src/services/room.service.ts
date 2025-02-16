@@ -4,11 +4,13 @@ import RoomModel from "@/models/room.model";
 import { isEmpty } from "@/utils/util";
 import { validateObjectId } from "@/validators/objectid.validator";
 import { validateCreateRoom } from "@/validators/room.validator";
+import PlayerService from "./player.service";
 import ThemeService from "./theme.service";
 
 class RoomService {
   public model = RoomModel;
   public themeService = new ThemeService();
+  public playerService = new PlayerService();
 
   public async findAllRooms(): Promise<PopulatedRoom[]> {
     const rooms: PopulatedRoom[] = await this.model
@@ -69,7 +71,22 @@ class RoomService {
   }
 
   public async deleteRoomById(roomId: string): Promise<PopulatedRoom> {
-    const deletedRoom: PopulatedRoom | null = await this.model
+    if (isEmpty(roomId)) throw new HttpError(400, "RoomId is empty");
+    if (!validateObjectId(roomId))
+      throw new HttpError(400, "RoomId is invalid");
+
+    const room = await this.model
+      .findById(roomId)
+      .populate<PopulatedRoom>("players theme");
+    if (!room) throw new HttpError(409, "Room doesn't exist");
+
+    if (room.players && room.players.length > 0) {
+      await this.playerService.deleteMultiplePlayers(
+        room.players.map((p) => p._id),
+      );
+    }
+
+    const deletedRoom = await this.model
       .findByIdAndDelete(roomId)
       .populate<PopulatedRoom>("players theme");
 
