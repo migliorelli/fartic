@@ -27,7 +27,7 @@ const routes: RouteRecordRaw[] = [
     name: "Rooms",
   },
   {
-    path: "/rooms/:id",
+    path: "/game/:tag",
     component: GameView,
     name: "Game",
   },
