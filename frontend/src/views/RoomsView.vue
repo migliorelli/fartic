@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { AxiosError } from "axios";
 import { LogOut, Plus, RotateCcw } from "lucide-vue-next";
-import { inject, onMounted, ref } from "vue";
+import { inject, onMounted, onUnmounted, ref } from "vue";
 import RoomCard from "../components/cards/RoomCard.vue";
 import CreateRoomModal from "../components/modals/CreateRoomModal.vue";
 import Button from "../components/ui/Button.vue";
@@ -13,6 +13,7 @@ import type { Room } from "../types/game";
 const axios = inject(AxiosKey);
 const game = useGameStore();
 const rooms = ref<Room[]>([]);
+const timer = ref<number | null>(null);
 
 const loading = ref(true);
 const error = ref<string | null>(null);
@@ -34,7 +35,16 @@ const fetchRooms = async () => {
 };
 
 onMounted(async () => {
-  await fetchRooms();
+  fetchRooms();
+  timer.value = setInterval(() => {
+    fetchRooms();
+  }, 10000);
+});
+
+onUnmounted(() => {
+  if (!timer.value) return;
+  clearInterval(timer.value);
+  timer.value = null;
 });
 </script>
 
