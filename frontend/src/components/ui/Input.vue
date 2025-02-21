@@ -13,6 +13,7 @@ interface Props {
   max?: number;
   placeholder?: string;
   class?: string;
+  containerClass?: string;
   label?: string;
   error?: string | null;
 }
@@ -41,7 +42,12 @@ const inputAttrs = computed(() => {
 
 <template>
   <div
-    class="relative flex min-h-10 shrink grow flex-col items-center justify-start"
+    :class="
+      twMerge(
+        'relative flex min-h-10 shrink grow flex-col items-center justify-start',
+        containerClass,
+      )
+    "
   >
     <label
       v-if="label"
