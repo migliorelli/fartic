@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import MessageType from "../enums/message";
 import socket from "../lib/socket";
 import type { GameRoom, Message, Player } from "../types/game";
 
@@ -35,7 +36,6 @@ const useGameStore = defineStore("game", {
         this.game.players = players;
         this.game.player = player;
         this.game.initalized = true;
-        console.log("setup");
       });
 
       socket.on("disconnect", () => {
@@ -44,21 +44,43 @@ const useGameStore = defineStore("game", {
       });
 
       socket.on("chat:receive", (message) => {
-        this.game.chat.push(message);
+        this.game.chat = [...this.game.chat, message];
       });
 
       socket.on("awser:receive", (message) => {
-        this.game.awsers.push(message);
+        this.game.awsers = [...this.game.awsers, message];
       });
 
       socket.on("player:joined", (player) => {
-        this.game.players.push(player);
+        this.game.players = [...this.game.players, player];
       });
 
       socket.on("player:left", (socketId) => {
         this.game.players = this.game.players.filter(
           (player) => player.socketId !== socketId,
         );
+      });
+    },
+
+    sendMessage(content: string) {
+      if (!this.game.room || !this.username) return;
+
+      socket.emit("chat:send", {
+        content,
+        roomTag: this.game.room.tag,
+        title: this.username,
+        type: MessageType.MESSAGE,
+      });
+    },
+
+    sendAwser(content: string) {
+      if (!this.game.room || !this.username) return;
+
+      socket.emit("awser:send", {
+        content,
+        roomTag: this.game.room.tag,
+        title: this.username,
+        type: MessageType.MESSAGE,
       });
     },
 
