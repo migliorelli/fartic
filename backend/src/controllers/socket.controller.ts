@@ -1,3 +1,4 @@
+import MessageType from "@/enums/message.enum";
 import { GameRoom } from "@/interfaces/room.interface";
 import { AppSocket, SocketClient } from "@/interfaces/socket.interface";
 import PlayerService from "@/services/player.service";
@@ -66,6 +67,12 @@ class SocketController {
           .to(roomTag)
           .emit("game:setup", gameRoom, player, room.players);
         client.nsp.to(roomTag).emit("player:joined", player);
+        client.nsp.to(roomTag).emit("chat:receive", {
+          content: "joined",
+          title: `${player.username}#${player.tag}`,
+          type: MessageType.Server,
+          roomTag,
+        });
       } catch (error) {
         console.error(
           `SOCKET room:join => Message: ${(error as Error).message}`,
