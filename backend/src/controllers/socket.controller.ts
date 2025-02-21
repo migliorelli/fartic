@@ -30,6 +30,10 @@ class SocketController {
         const { room } =
           await this.playerService.removePlayerFromRoomBySocketId(socketId);
 
+        if (room.players.length === 0) {
+          await this.roomService.deleteRoomById(room._id);
+        }
+
         client.nsp.to(room._id).emit("player:left", socketId);
       } catch (error) {
         console.error(
@@ -86,6 +90,10 @@ class SocketController {
 
         const { room } =
           await this.playerService.removePlayerFromRoomBySocketId(socketId);
+
+        if (room.players.length === 0) {
+          await this.roomService.deleteRoomById(room._id);
+        }
 
         client.nsp.to(room._id).emit("player:left", socketId);
       } catch (error) {
