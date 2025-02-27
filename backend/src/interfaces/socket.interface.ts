@@ -13,6 +13,7 @@ interface ListenEvents {
   "chat:send": (message: Message) => void;
 
   "canvas:send": (roomTag: string, images: Stroke[]) => void;
+  "game:start": (roomTag: string) => void;
 }
 
 interface EmitEvents {
@@ -22,10 +23,12 @@ interface EmitEvents {
   "awser:receive": (message: Message) => void;
   "chat:receive": (message: Message) => void;
 
-  "player:joined": (player: Player) => void;
-  "player:left": (socketId: string) => void;
+  players: (players: Player[]) => void;
 
   "canvas:receive": (images: Stroke[]) => void;
+
+  "game:round-drawer": (word: string) => void;
+  "game:round": () => void;
 }
 
 export interface AppSocket extends Server<ListenEvents, EmitEvents> {}
