@@ -27,6 +27,10 @@ const PlayerSchema = new mongoose.Schema(
       trim: true,
       length: 4,
     },
+    owner: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

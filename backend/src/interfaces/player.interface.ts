@@ -4,6 +4,7 @@ interface Player {
   username: string;
   score: number;
   tag: string;
+  owner: boolean;
   updatedAt: Date;
   createdAt: Date;
 }
