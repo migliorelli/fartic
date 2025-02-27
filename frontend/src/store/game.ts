@@ -101,6 +101,11 @@ const useGameStore = defineStore("game", {
       });
     },
 
+    sendImage(data: string) {
+      if (!this.game.room) return;
+      socket.emit("canvas:send", this.game.room.tag, data);
+    },
+
     leaveGame() {
       if (!this.game.room) return;
       socket.emit("room:leave", this.game.room.tag);
