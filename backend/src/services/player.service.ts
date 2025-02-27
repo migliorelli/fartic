@@ -117,7 +117,11 @@ class PlayerService {
     });
 
     if (player !== null) {
-      await this.deletePlayerById((player as Player)._id);
+      if ((<Player>player).owner && room.players.length > 0) {
+        room.players[0].owner = true;
+      }
+
+      await this.deletePlayerById((<Player>player)._id);
     }
 
     await room.save();
