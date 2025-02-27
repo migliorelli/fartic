@@ -1,4 +1,5 @@
 import { DefaultEventsMap, Server, Socket } from "socket.io";
+import { Stroke } from "./canvas.interface";
 import Message from "./message.interface";
 import Player from "./player.interface";
 import { GameRoom } from "./room.interface";
@@ -10,6 +11,8 @@ interface ListenEvents {
 
   "awser:send": (message: Message) => void;
   "chat:send": (message: Message) => void;
+
+  "canvas:send": (roomTag: string, images: Stroke[]) => void;
 }
 
 interface EmitEvents {
@@ -21,6 +24,8 @@ interface EmitEvents {
 
   "player:joined": (player: Player) => void;
   "player:left": (socketId: string) => void;
+
+  "canvas:receive": (images: Stroke[]) => void;
 }
 
 export interface AppSocket extends Server<ListenEvents, EmitEvents> {}

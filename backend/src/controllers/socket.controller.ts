@@ -17,6 +17,7 @@ class SocketController {
 
       this.setupConnection(client);
       this.setupRooms(client);
+      this.setupCanvas(client);
       this.setupAwser(client);
       this.setupMessage(client);
     });
@@ -64,6 +65,7 @@ class SocketController {
           theme: room.theme,
           currendDrawer: room.currendDrawer,
           currentWord: room.currentWord,
+          images: room.images,
         };
 
         client.join(roomTag);
@@ -114,6 +116,19 @@ class SocketController {
   private async setupMessage(client: SocketClient) {
     client.on("chat:send", (msg) => {
       client.nsp.to(msg.roomTag).emit("chat:receive", msg);
+    });
+  }
+
+  private async setupCanvas(client: SocketClient) {
+    client.on("canvas:send", async (roomTag, images) => {
+      try {
+        await this.roomService.updateRoomImage(roomTag, images);
+        client.nsp.to(roomTag).except(client.id).emit("canvas:receive", images);
+      } catch (error) {
+        console.error(
+          `SOCKET canvas:send => Message: ${(error as Error).message}`,
+        );
+      }
     });
   }
 }
