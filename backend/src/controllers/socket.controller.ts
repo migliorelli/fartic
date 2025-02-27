@@ -16,6 +16,7 @@ class SocketController {
       client.on("ping", () => client.emit("pong", "pong!"));
 
       this.setupConnection(client);
+      this.setupGame(client);
       this.setupRooms(client);
       this.setupCanvas(client);
       this.setupAwser(client);
@@ -35,10 +36,25 @@ class SocketController {
           await this.roomService.deleteRoomById(room._id);
         }
 
-        client.nsp.to(room._id).emit("player:left", socketId);
+        client.nsp.to(room._id).emit("players", room.players);
       } catch (error) {
         console.error(
           `SOCKET disconnect => Message: ${(error as Error).message}`,
+        );
+      }
+    });
+  }
+
+  private async setupGame(client: SocketClient) {
+    client.on("game:start", async (roomTag) => {
+      try {
+        const { word, player } = await this.roomService.startRound(roomTag);
+
+        client.emit("game:round-drawer", word);
+        client.nsp.to(roomTag).except(player.socketId).emit("game:round");
+      } catch (error) {
+        console.error(
+          `SOCKET game:start => Message: ${(error as Error).message}`,
         );
       }
     });
@@ -72,7 +88,7 @@ class SocketController {
         client.nsp
           .to(roomTag)
           .emit("game:setup", gameRoom, player, room.players);
-        client.nsp.to(roomTag).emit("player:joined", player);
+        client.nsp.to(roomTag).emit("players", room.players);
         client.nsp.to(roomTag).emit("chat:receive", {
           content: "joined",
           title: `${player.username}#${player.tag}`,
@@ -97,7 +113,7 @@ class SocketController {
           await this.roomService.deleteRoomById(room._id);
         }
 
-        client.nsp.to(room._id).emit("player:left", socketId);
+        client.nsp.to(room._id).emit("players", room.players);
       } catch (error) {
         console.error(
           `SOCKET room:leave => Message: ${(error as Error).message}`,
