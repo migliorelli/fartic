@@ -1,4 +1,5 @@
 import HttpError from "@/errors/http.error";
+import { Stroke } from "@/interfaces/canvas.interface";
 import Room, { PopulatedRoom } from "@/interfaces/room.interface";
 import RoomModel from "@/models/room.model";
 import { isEmpty } from "@/utils/util";
@@ -89,6 +90,13 @@ class RoomService {
 
     await room.deleteOne();
     return room;
+  }
+
+  public async updateRoomImage(roomTag: string, images: Stroke[]) {
+    if (isEmpty(roomTag)) throw new HttpError(400, "RoomTag is empty");
+    if (isEmpty(images)) throw new HttpError(400, "Images is empty");
+
+    await this.model.updateOne({ tag: roomTag }, { images });
   }
 }
 
