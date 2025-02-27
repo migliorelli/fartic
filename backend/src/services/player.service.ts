@@ -74,6 +74,7 @@ class PlayerService {
       username,
       score: 0,
       tag: await this.model.generateTag(),
+      owner: room.players.length === 0,
     };
 
     const createdPlayer = await this.model.create(player);
