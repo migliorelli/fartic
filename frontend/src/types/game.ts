@@ -49,6 +49,7 @@ export interface Player {
   username: string;
   score: number;
   tag: string;
+  owner: string;
   updatedAt: Date | string;
   createdAt: Date | string;
 }
