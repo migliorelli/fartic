@@ -9,6 +9,7 @@ enum StrokeType {
   HalfTriangle = "HALFTRIANGLE",
 
   Line = "LINE",
+  PaintBucket = "PAINTBUCKET"
 }
 
 export default StrokeType;
