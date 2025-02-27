@@ -5,6 +5,8 @@ interface Player {
   score: number;
   tag: string;
   owner: boolean;
+  won: number;
+  inactiveRounds: number;
   updatedAt: Date;
   createdAt: Date;
 }

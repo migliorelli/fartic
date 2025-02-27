@@ -20,6 +20,14 @@ const PlayerSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    won: {
+      type: Number,
+      default: 0,
+    },
+    inactiveRounds: {
+      type: Number,
+      default: 0,
+    },
     tag: {
       type: String,
       required: true,
