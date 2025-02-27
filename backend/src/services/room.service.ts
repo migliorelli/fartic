@@ -1,5 +1,6 @@
 import HttpError from "@/errors/http.error";
 import { Stroke } from "@/interfaces/canvas.interface";
+import Player from "@/interfaces/player.interface";
 import Room, { PopulatedRoom } from "@/interfaces/room.interface";
 import RoomModel from "@/models/room.model";
 import { isEmpty } from "@/utils/util";
@@ -97,6 +98,39 @@ class RoomService {
     if (isEmpty(images)) throw new HttpError(400, "Images is empty");
 
     await this.model.updateOne({ tag: roomTag }, { images });
+  }
+
+  public async startRound(
+    roomTag: string,
+  ): Promise<{ word: string; player: Player }> {
+    if (isEmpty(roomTag)) throw new HttpError(400, "RoomTag is empty");
+
+    const room = await this.model
+      .findOne({ tag: roomTag })
+      .populate<PopulatedRoom>("players theme");
+    if (!room) throw new HttpError(409, "Room doesn't exist");
+
+    const players = (await this.playerService.findAllPlayers()).sort(
+      (a, b) => b.inactiveRounds - a.inactiveRounds,
+    );
+
+    const playerToDraw = players[0];
+
+    const words = room.theme.words;
+    let word = room.currentWord;
+
+    while (word === room.currentWord) {
+      const randomIndex = Math.floor(Math.random() * words.length);
+      word = words[randomIndex];
+    }
+
+    room.currentWord = word;
+    room.currendDrawer = playerToDraw._id;
+    room.images = [];
+
+    await room.save();
+    
+    return { word: word as string, player: playerToDraw };
   }
 }
 
