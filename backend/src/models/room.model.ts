@@ -1,4 +1,5 @@
 import RoomStatus from "@/enums/status.enum";
+import { StrokeType } from "@/interfaces/canvas.interface";
 import Room from "@/interfaces/room.interface";
 import mongoose from "mongoose";
 
@@ -23,6 +24,20 @@ const RoomSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Theme",
     },
+    images: [
+      {
+        fill: Boolean,
+        lineWidth: Number,
+        color: String,
+        coordinates: [{ x: Number, y: Number }],
+        from: { x: Number, y: Number },
+        strokeType: {
+          type: String,
+          enum: Object.values(StrokeType),
+          default: StrokeType.Dash,
+        },
+      },
+    ],
     currentWord: {
       type: String,
       required: false,

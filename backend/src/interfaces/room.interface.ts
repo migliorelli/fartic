@@ -1,5 +1,6 @@
 import RoomStatus from "@/enums/status.enum";
 import { ObjectId } from "mongoose";
+import { StrokeType } from "./canvas.interface";
 import Player from "./player.interface";
 import Theme from "./theme.interface";
 
@@ -15,6 +16,7 @@ interface Room {
   private: boolean;
   targetPontuation: number;
   tag: string;
+  images: StrokeType[];
   createdAt: Date;
   updatedAt: Date;
 }
