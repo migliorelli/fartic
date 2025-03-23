@@ -73,6 +73,8 @@ class PlayerService {
       socketId,
       username,
       score: 0,
+      inactiveRounds: 0,
+      won: 0,
       tag: await this.model.generateTag(),
       owner: room.players.length === 0,
     };
