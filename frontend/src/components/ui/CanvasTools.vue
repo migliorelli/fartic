@@ -3,10 +3,13 @@ import {
   Brush,
   Circle,
   Eraser,
+  PaintBucket,
+  Redo,
   Ruler,
   Square,
   Triangle,
   TriangleRight,
+  Undo,
   type LucideProps,
 } from "lucide-vue-next";
 import { twMerge } from "tailwind-merge";
@@ -28,6 +31,8 @@ interface Emits {
   (event: "update:color", color: string): void;
   (event: "update:stroke-type", type: StrokeType): void;
   (event: "update:line-width", width: number): void;
+  (event: "undo"): void;
+  (event: "redo"): void;
 }
 
 const props = defineProps<Props>();
@@ -41,17 +46,8 @@ const drawOptions: DrawOption[] = [
   { key: StrokeType.Triangle, icon: Triangle },
   { key: StrokeType.HalfTriangle, icon: TriangleRight },
   { key: StrokeType.Line, icon: Ruler },
+  { key: StrokeType.PaintBucket, icon: PaintBucket },
 ];
-
-// const drawOptions: DrawOption[] = [
-//   { key: StrokeType.Dash, icon: "Brush" },
-//   { key: StrokeType.Eraser, icon: "Eraser" },
-//   { key: StrokeType.Square, icon: "Square" },
-//   { key: StrokeType.Circle, icon: "Circle" },
-//   { key: StrokeType.Triangle, icon: "Triangle" },
-//   { key: StrokeType.HalfTriangle, icon: "TriangleRight" },
-//   { key: StrokeType.Line, icon: "Ruler" },
-// ];
 
 // prettier-ignore
 const colors = [
@@ -82,19 +78,20 @@ const getColorStyles = (color: string): StyleValue => {
 <template>
   <div class="flex h-full w-full grow items-center gap-4">
     <div
-      class="grid h-full grid-cols-4 grid-rows-2 place-items-center rounded-xl border-1 border-gray-200 p-4 shadow-sm"
+      class="grid h-full grid-flow-col grid-cols-4 grid-rows-2 place-items-center rounded-xl border-1 border-gray-200 p-4 shadow-sm"
     >
       <button
         v-for="option in drawOptions"
-        :class="
-          twMerge(
-            'm-2 grid size-12 cursor-pointer place-items-center rounded-lg transition-all',
-            strokeType === option.key && 'bg-gray-200',
-          )
-        "
+        :class="twMerge('tool-btn', strokeType === option.key && 'selected')"
         @click="emit('update:stroke-type', option.key)"
       >
         <component :is="option.icon" :size="28" />
+      </button>
+      <button class="tool-btn" @click="emit('undo')">
+        <Undo />
+      </button>
+      <button class="tool-btn" @click="emit('redo')">
+        <Redo />
       </button>
     </div>
 
