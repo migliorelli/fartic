@@ -1,11 +1,14 @@
 {
-  "name": "fartic-backend",
+  "name": "backend",
   "version": "1.0.0",
   "main": "src/index.ts",
-  "scripts": {
-    "dev": "set DEBUG=socket.io* && nodemon --exec ts-node -r tsconfig-paths/register ./src/index.ts"
-  },
+  "private": true,  "author": "Miguel Migliorelli Bringhenti <miglenti@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "dev": "set DEBUG=socket.io* && nodemon --exec ts-node -r tsconfig-paths/register ./src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
   "dependencies": {
     "@types/cookie-parser": "^1.4.8",
     "cookie-parser": "^1.4.7",

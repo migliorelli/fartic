@@ -1,18 +1,20 @@
 {
   "name": "fartic",
   "version": "1.0.0",
+  "private": true,
   "repository": "https://github.com/migliorelli/fartic.git",
   "author": "Miguel Migliorelli Bringhenti <miglenti@gmail.com>",
-  "scripts": {
-    "dev:backend": "cd backend && yarn dev",
-    "dev:frontend": "cd frontend && yarn dev",
-    "dev": "concurrently \"yarn dev:backend\" \"yarn dev:frontend\"",
-    "install:backend": "cd backend && yarn install",
-    "install:frontend": "cd frontend && yarn install",
-    "install:all": "concurrently \"yarn install:backend\" \"yarn install:frontend\""
-  },
   "license": "MIT",
-  "dependencies": {
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:frontend": "yarn workspace frontend dev",
+    "dev:backend": "yarn workspace backend dev",
+    "dev": "concurrently \"yarn dev:frontend\" \"yarn dev:backend\"",
+    "build": "yarn build --workspaces"
+  },
+  "devDependencies": {
     "concurrently": "^9.1.2"
   }
 }
